@@ -4,7 +4,7 @@ namespace BookLibraryApi.Models
 {
     public sealed class Work : IEntityWithNameAndDescription
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string Name { get; set; }
 

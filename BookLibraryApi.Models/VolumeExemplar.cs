@@ -2,7 +2,7 @@
 {
     public sealed class VolumeExemplar : IEntity
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int? VolumeId { get; set; }
 

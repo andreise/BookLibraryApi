@@ -4,7 +4,7 @@ namespace BookLibraryApi.Models
 {
     public sealed class Volume : IEntity
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int? YearOfPublication { get; set; }
 

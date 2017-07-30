@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Diagnostics.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -20,11 +21,25 @@ namespace BookLibraryApi.Models
 
         public virtual TEntity Get(int id) => this.context.Find<TEntity>(id);
 
-        public virtual void Add(TEntity entity) => this.context.Add(entity);
+        public virtual void Add(TEntity entity)
+        {
+            Contract.RequiresArgumentNotNull(entity, nameof(entity));
+            Contract.RequiresArgument(entity.Id is null, "Entity ID must be null.", nameof(entity));
+
+            this.context.Add(entity);
+        }
 
         public virtual void Add(string entity) => this.Add(JsonConvert.DeserializeObject<TEntity>(entity));
 
-        public virtual void Update(int id, TEntity entity) => this.context.Update(entity);
+        public virtual void Update(int id, TEntity entity)
+        {
+            Contract.RequiresArgumentNotNull(entity, nameof(entity));
+            Contract.RequiresArgument(
+                entity.Id is null || entity.Id == id, "Entity ID must be null or equals to the specified ID.", nameof(entity));
+
+            entity.Id = id;
+            this.context.Update(entity);
+        }
 
         public virtual void Update(int id, string entity) => this.Update(id, JsonConvert.DeserializeObject<TEntity>(entity));
 

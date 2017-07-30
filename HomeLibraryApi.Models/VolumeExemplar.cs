@@ -1,6 +1,6 @@
 ﻿namespace HomeLibraryApi.Models
 {
-    public sealed class Book : IEntity
+    public sealed class VolumeExemplar : IEntity
     {
         public int Id { get; set; }
 

@@ -6,11 +6,11 @@ namespace HomeLibraryApi.Models
     {
         public DbSet<Author> Authors { get; set; }
 
-        public DbSet<VolumeExemplar> Books { get; set; }
-
         public DbSet<Edition> Editions { get; set; }
 
         public DbSet<Volume> Volumes { get; set; }
+
+        public DbSet<VolumeExemplar> VolumeExemplars { get; set; }
 
         public DbSet<Work> Works { get; set; }
 

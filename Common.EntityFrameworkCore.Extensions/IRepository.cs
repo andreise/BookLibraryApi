@@ -4,7 +4,9 @@ namespace Common.EntityFrameworkCore.Extensions
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        IReadOnlyCollection<TEntity> Get();
+        int GetCount();
+
+        IReadOnlyList<TEntity> GetAll();
 
         TEntity Get(int id);
 

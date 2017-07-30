@@ -23,5 +23,13 @@ namespace HomeLibraryApi.Models
         public int? AltWorkKindId { get; set; }
 
         public WorkKind AltWorkKind { get; set; }
+
+        public int? GenreId { get; set; }
+
+        public IReadOnlyList<Genre> Genres { get; set; }
+
+        public int? AltGenreId { get; set; }
+
+        public IReadOnlyList<Genre> AltGenres { get; set; }
     }
 }

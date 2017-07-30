@@ -13,7 +13,9 @@ namespace Common.EntityFrameworkCore.Extensions
             this.context = context;
         }
 
-        public virtual IReadOnlyCollection<TEntity> Get() => this.context.Set<TEntity>().ToArray();
+        public virtual int GetCount() => this.context.Set<TEntity>().Count();
+
+        public virtual IReadOnlyList<TEntity> GetAll() => this.context.Set<TEntity>().ToArray();
 
         public virtual TEntity Get(int id) => this.context.Find<TEntity>(id);
 

@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibraryApi.Controllers"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibraryApi.Repositories", "BookLibraryApi.Repositories\BookLibraryApi.Repositories.csproj", "{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.EntityFrameworkCore.Extensions", "Common.EntityFrameworkCore.Extensions\Common.EntityFrameworkCore.Extensions.csproj", "{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

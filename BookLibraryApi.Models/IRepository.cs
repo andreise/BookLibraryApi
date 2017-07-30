@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common.EntityFrameworkCore.Extensions
+namespace BookLibraryApi.Models
 {
     public interface IRepository<TEntity> where TEntity : class
     {

@@ -2,7 +2,7 @@
 
 namespace BookLibraryApi.Repositories
 {
-    public sealed class VolumesRepository : RepositoryBase<Volume>
+    public sealed class VolumesRepository : Repository<Volume>
     {
         public VolumesRepository(BookLibraryContext context) : base(context)
         {

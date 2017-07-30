@@ -2,7 +2,7 @@
 
 namespace BookLibraryApi.Repositories
 {
-    public sealed class GenresRepository : RepositoryBase<Genre>
+    public sealed class GenresRepository : Repository<Genre>
     {
         public GenresRepository(BookLibraryContext context) : base(context)
         {

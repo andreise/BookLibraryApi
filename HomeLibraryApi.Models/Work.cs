@@ -26,10 +26,10 @@ namespace HomeLibraryApi.Models
 
         public int? GenreId { get; set; }
 
-        public IReadOnlyList<Genre> Genres { get; set; }
+        public Genre Genre { get; set; }
 
         public int? AltGenreId { get; set; }
 
-        public IReadOnlyList<Genre> AltGenres { get; set; }
+        public Genre AltGenre { get; set; }
     }
 }

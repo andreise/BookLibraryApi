@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibraryApi.Repositories
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{13478E41-5490-4930-9C51-CCF5080CA248}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryApi.Data.Common", "BookLibraryApi.Data.Common\BookLibraryApi.Data.Common.csproj", "{62B76B2F-B64A-4837-ADA3-AE608CC6EB73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{13478E41-5490-4930-9C51-CCF5080CA248}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13478E41-5490-4930-9C51-CCF5080CA248}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13478E41-5490-4930-9C51-CCF5080CA248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B76B2F-B64A-4837-ADA3-AE608CC6EB73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B76B2F-B64A-4837-ADA3-AE608CC6EB73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B76B2F-B64A-4837-ADA3-AE608CC6EB73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B76B2F-B64A-4837-ADA3-AE608CC6EB73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

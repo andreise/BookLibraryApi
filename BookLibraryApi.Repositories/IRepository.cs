@@ -1,4 +1,4 @@
-﻿using BookLibraryApi.Models;
+﻿using BookLibraryApi.Data.Common;
 using System.Collections.Generic;
 
 namespace BookLibraryApi.Repositories

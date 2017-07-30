@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BookLibraryApi.Data.Common;
+using System.Collections.Generic;
 
 namespace BookLibraryApi.Models
 {

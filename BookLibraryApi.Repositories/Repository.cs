@@ -1,4 +1,4 @@
-﻿using BookLibraryApi.Models;
+﻿using BookLibraryApi.Data.Common;
 using Common.Diagnostics.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;

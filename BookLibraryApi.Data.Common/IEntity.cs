@@ -1,4 +1,4 @@
-﻿namespace BookLibraryApi.Models
+﻿namespace BookLibraryApi.Data.Common
 {
     public interface IEntity
     {

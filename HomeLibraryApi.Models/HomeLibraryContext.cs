@@ -20,11 +20,9 @@ namespace HomeLibraryApi.Models
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Work>().Property(nameof(Work.AltWorkKind)).HasColumnName(nameof(Work.AltWorkKind));
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

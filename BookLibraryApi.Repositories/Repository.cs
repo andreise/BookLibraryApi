@@ -30,13 +30,6 @@ namespace BookLibraryApi.Repositories
             this.context.Add(entity);
         }
 
-        private static TEntity DeserializeEntity(string entity)
-        {
-            return JsonConvert.DeserializeObject<TEntity>(entity);
-        }
-
-        public virtual void Add(string entity) => this.Add(DeserializeEntity(entity));
-
         public virtual void Update(int id, TEntity entity)
         {
             Contract.RequiresArgumentNotNull(entity, nameof(entity));
@@ -46,8 +39,6 @@ namespace BookLibraryApi.Repositories
             entity.Id = id;
             this.context.Update(entity);
         }
-
-        public virtual void Update(int id, string entity) => this.Update(id, DeserializeEntity(entity));
 
         public virtual void Remove(int id) => this.context.Remove(this.Get(id));
 

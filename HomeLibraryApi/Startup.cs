@@ -27,7 +27,10 @@ namespace HomeLibraryApi
         private void ConfigureDbContext(IServiceCollection services)
         {
             var connectionString = this.Configuration.GetConnectionString("HomeLibraryContext");
-            services.AddDbContext<HomeLibraryContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<HomeLibraryContext>(
+                options => options.UseSqlServer(
+                    connectionString,
+                    optionsBuilder => optionsBuilder.MigrationsAssembly("HomeLibraryApi")));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

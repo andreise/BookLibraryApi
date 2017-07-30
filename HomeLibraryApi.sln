@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeLibraryApi.Models", "Ho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeLibraryApi.Controllers", "HomeLibraryApi.Controllers\HomeLibraryApi.Controllers.csproj", "{044621F8-B182-4ED3-9B52-7CECE3673956}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeLibraryApi.Repository", "HomeLibraryApi.Repository\HomeLibraryApi.Repository.csproj", "{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeLibraryApi.Repositories", "HomeLibraryApi.Repositories\HomeLibraryApi.Repositories.csproj", "{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.EntityFrameworkCore.Extensions", "Common.EntityFrameworkCore.Extensions\Common.EntityFrameworkCore.Extensions.csproj", "{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A40BD8DD-AAE9-45BE-B50A-F20E266297F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94BFF52-D4AD-403C-ABAA-C2B785214EF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,6 +12,8 @@
 
         public int? YearOfPurchase { get; set; }
 
+        public string InventoryNumber { get; set; }
+
         public bool? IsPresentOnSite { get; set; }
     }
 }

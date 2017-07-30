@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using BookLibraryApi.Repositories;
 
 namespace BookLibraryApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public sealed class AuthorsController : Controller
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IReadOnlyList<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return null;
         }
 
         // GET api/values/5

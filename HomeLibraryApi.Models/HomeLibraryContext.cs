@@ -8,6 +8,8 @@ namespace HomeLibraryApi.Models
 
         public DbSet<Edition> Editions { get; set; }
 
+        public DbSet<Genre> Genres { get; set; }
+
         public DbSet<Volume> Volumes { get; set; }
 
         public DbSet<VolumeExemplar> VolumeExemplars { get; set; }

@@ -10,7 +10,7 @@ namespace HomeLibraryApi.Models
 
         public string Description { get; set; }
 
-        public int VolumeCount { get; set; }
+        public int? VolumeCount { get; set; }
         
         public IReadOnlyList<Volume> Volumes { get; set; }
     }

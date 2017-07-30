@@ -1,8 +1,9 @@
 ﻿using Common.Diagnostics.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace BookLibraryApi.Models
 {
@@ -29,7 +30,12 @@ namespace BookLibraryApi.Models
             this.context.Add(entity);
         }
 
-        public virtual void Add(string entity) => this.Add(JsonConvert.DeserializeObject<TEntity>(entity));
+        private static TEntity DeserializeEntity(string entity)
+        {
+            return JsonConvert.DeserializeObject<TEntity>(entity);
+        }
+
+        public virtual void Add(string entity) => this.Add(DeserializeEntity(entity));
 
         public virtual void Update(int id, TEntity entity)
         {
@@ -41,7 +47,7 @@ namespace BookLibraryApi.Models
             this.context.Update(entity);
         }
 
-        public virtual void Update(int id, string entity) => this.Update(id, JsonConvert.DeserializeObject<TEntity>(entity));
+        public virtual void Update(int id, string entity) => this.Update(id, DeserializeEntity(entity));
 
         public virtual void Remove(int id) => this.context.Remove(this.Get(id));
 

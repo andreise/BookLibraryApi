@@ -19,6 +19,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HomeLibraryApi.Controllers\HomeLibraryApi.Controllers.csproj" />
     <ProjectReference Include="..\HomeLibraryApi.Models\HomeLibraryApi.Models.csproj" />
   </ItemGroup>
 

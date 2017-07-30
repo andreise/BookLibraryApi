@@ -8,9 +8,10 @@ using HomeLibraryApi.Models;
 namespace HomeLibraryApi.Migrations
 {
     [DbContext(typeof(HomeLibraryContext))]
-    partial class HomeLibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20170730082034_AltWorkKindIdProperty")]
+    partial class AltWorkKindIdProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

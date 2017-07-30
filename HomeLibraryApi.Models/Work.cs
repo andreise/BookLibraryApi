@@ -20,6 +20,8 @@ namespace HomeLibraryApi.Models
 
         public WorkKind WorkKind { get; set; }
 
+        public int? AltWorkKindId { get; set; }
+
         public WorkKind AltWorkKind { get; set; }
     }
 }

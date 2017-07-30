@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HomeLibraryApi
 {
-    public class Startup
+    sealed class Startup
     {
         public Startup(IHostingEnvironment env)
         {

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace BookLibraryApi
 {
     using Models;
+    using Repositories;
 
     sealed class Startup
     {
@@ -33,10 +34,23 @@ namespace BookLibraryApi
                     optionsBuilder => optionsBuilder.MigrationsAssembly("BookLibraryApi")));
         }
 
+        private void ConfigureRepositories(IServiceCollection services)
+        {
+            services.AddSingleton<AuthorsRepository>();
+            services.AddSingleton<EditionsRepository>();
+            services.AddSingleton<GenresRepository>();
+            services.AddSingleton<VolumesRepository>();
+            services.AddSingleton<VolumeExemplarsRepository>();
+            services.AddSingleton<WorksRepository>();
+            services.AddSingleton<WorkKindsRepository>();
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             this.ConfigureDbContext(services);
+
+            this.ConfigureRepositories(services);
 
             // Add framework services.
             services.AddMvc();

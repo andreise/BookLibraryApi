@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BookLibraryApi.Controllers\BookLibraryApi.Controllers.csproj" />
     <ProjectReference Include="..\BookLibraryApi.Models\BookLibraryApi.Models.csproj" />
+    <ProjectReference Include="..\BookLibraryApi.Repositories\BookLibraryApi.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Common.EntityFrameworkCore.Extensions
 {
@@ -21,7 +22,11 @@ namespace Common.EntityFrameworkCore.Extensions
 
         public virtual void Add(TEntity entity) => this.context.Add(entity);
 
-        public virtual void Update(TEntity entity) => this.context.Update(entity);
+        public virtual void Add(string entity) => this.Add(JsonConvert.DeserializeObject<TEntity>(entity));
+
+        public virtual void Update(int id, TEntity entity) => this.context.Update(entity);
+
+        public virtual void Update(int id, string entity) => this.Update(id, JsonConvert.DeserializeObject<TEntity>(entity));
 
         public virtual void Remove(int id) => this.context.Remove(this.Get(id));
 

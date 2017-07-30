@@ -12,7 +12,11 @@ namespace Common.EntityFrameworkCore.Extensions
 
         void Add(TEntity entity);
 
-        void Update(TEntity entity);
+        void Add(string entity);
+
+        void Update(int id, TEntity entity);
+
+        void Update(int id, string entity);
 
         void Remove(int id);
 

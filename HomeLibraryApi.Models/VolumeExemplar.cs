@@ -14,6 +14,6 @@
 
         public string InventoryNumber { get; set; }
 
-        public bool? IsPresentOnSite { get; set; }
+        public bool? IsInPlace { get; set; }
     }
 }

@@ -1,11 +1,11 @@
-﻿using Common.Diagnostics.Contracts;
+﻿using BookLibraryApi.Models;
+using Common.Diagnostics.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BookLibraryApi.Models
+namespace BookLibraryApi.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {

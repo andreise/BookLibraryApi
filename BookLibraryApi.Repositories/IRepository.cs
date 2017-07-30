@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using BookLibraryApi.Models;
+using System.Collections.Generic;
 
-namespace BookLibraryApi.Models
+namespace BookLibraryApi.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class, IEntity
     {
         int GetCount();
 

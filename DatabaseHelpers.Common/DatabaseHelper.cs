@@ -19,6 +19,9 @@ namespace DatabaseHelpers.Common
             }
         }
 
+        public static object CreateDatabase(string database) =>
+            ExecuteScalar(GetConnectionString(), "CREATE DATABASE " + database);
+
         public static object DropDatabase(string database) =>
             ExecuteScalar(GetConnectionString(), "DROP DATABASE " + database);
     }

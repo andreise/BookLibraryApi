@@ -1,7 +1,7 @@
 ﻿using BookLibraryApi.Models.EntityLinks;
 using BookLibraryApi.Repositories.EntityLinkRepositories;
 
-namespace BookLibraryApi.Controllers.EntityControllers
+namespace BookLibraryApi.Controllers.EntityLinkControllers
 {
     public sealed class WorkAuthorLinksController : EntityControllerBase<WorkAuthorLinksRepository, WorkAuthorLink>
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BookLibraryApi.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : class, IEntity
+    public interface IEntityRepository<TEntity> where TEntity : class, IEntity
     {
         int GetCount();
 

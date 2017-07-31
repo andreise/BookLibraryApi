@@ -3,7 +3,7 @@ using BookLibraryApi.Models.EntityLinks;
 
 namespace BookLibraryApi.Repositories.EntityLinkRepositories
 {
-    public sealed class VolumeWorkLinksRepository : RepositoryBase<VolumeWorkLink>
+    public sealed class VolumeWorkLinksRepository : EntityRepositoryBase<VolumeWorkLink>
     {
         public VolumeWorkLinksRepository(BookLibraryContext context) : base(context)
         {

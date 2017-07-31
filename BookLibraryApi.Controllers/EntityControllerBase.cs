@@ -8,8 +8,8 @@ using System.Linq;
 namespace BookLibraryApi.Controllers
 {
     [Route("api/[controller]")]
-    public abstract class EntityControllerBase<TRepository, TEntity> : Controller
-        where TRepository : IRepository<TEntity>
+    public abstract class EntityControllerBase<TEntityRepository, TEntity> : Controller
+        where TEntityRepository : IEntityRepository<TEntity>
         where TEntity : class, IEntity
     {
         private static string SerializeEntity(TEntity entity)
@@ -22,9 +22,9 @@ namespace BookLibraryApi.Controllers
             return JsonConvert.DeserializeObject<TEntity>(entity);
         }
 
-        private readonly TRepository repository;
+        private readonly TEntityRepository repository;
 
-        public EntityControllerBase(TRepository repository)
+        public EntityControllerBase(TEntityRepository repository)
         {
             this.repository = repository;
         }

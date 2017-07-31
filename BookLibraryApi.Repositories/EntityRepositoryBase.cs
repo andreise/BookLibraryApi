@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace BookLibraryApi.Repositories
 {
-    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public abstract class EntityRepositoryBase<TEntity> : IEntityRepository<TEntity> where TEntity : class, IEntity
     {
         protected readonly DbContext context;
         
-        public RepositoryBase(DbContext context)
+        public EntityRepositoryBase(DbContext context)
         {
             this.context = context;
         }

@@ -1,4 +1,5 @@
 ﻿using BookLibraryApi.Data.Common;
+using BookLibraryApi.Models.Entities;
 
 namespace BookLibraryApi.Models.EntityLinks
 {
@@ -8,6 +9,10 @@ namespace BookLibraryApi.Models.EntityLinks
 
         public int? EditionId { get; set; }
 
+        public Edition Edition { get; set; }
+
         public int? VolumeId { get; set; }
+
+        public Volume Volume { get; set; }
     }
 }

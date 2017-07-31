@@ -61,20 +61,20 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
                     nameItem => nameItem.StartsWith(patternItem, StringComparison.OrdinalIgnoreCase)));
         }
 
-        private IQueryable<TEntity> GetEntitiesByNameInternal<TEntity>(string name) where TEntity : class, IEntityWithName
+        private IQueryable<TEntity> GetEntitiesByNamePatternInternal<TEntity>(string namePattern) where TEntity : class, IEntityWithName
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(namePattern))
                 return null;
 
-            string[] namePattern = SplitName(name);
+            string[] pattern = SplitName(namePattern);
 
             return context.Set<TEntity>()
                 .Where(item => !string.IsNullOrWhiteSpace(item.Name))
-                .Where(item => IsMatchName(namePattern, item.Name));
+                .Where(item => IsMatchName(pattern, item.Name));
         }
 
-        private IReadOnlyList<TEntity> GetEntitiesByNameWrapper<TEntity>(string name) where TEntity : class, IEntityWithName =>
-            this.GetEntitiesByNameInternal<TEntity>(name)?.ToArray() ?? new TEntity[] { };
+        private IReadOnlyList<TEntity> GetEntitiesByNamePatternWrapper<TEntity>(string namePattern) where TEntity : class, IEntityWithName =>
+            this.GetEntitiesByNamePatternInternal<TEntity>(namePattern)?.ToArray() ?? new TEntity[] { };
 
         public IReadOnlyList<Work> GetWorksByAuthor(int authorId) =>
             this.GetWorksByAuthorInternal(authorId).ToArray();
@@ -85,8 +85,8 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
         public IReadOnlyList<Work> GetWorksByAuthorAndGenre(int authorId, int genreId) =>
             this.GetWorksByAuthorAndGenreInternal(authorId, genreId).ToArray();
 
-        public IReadOnlyList<Author> GetAuthorsByName(string name) => this.GetEntitiesByNameWrapper<Author>(name);
+        public IReadOnlyList<Author> GetAuthorsByNamePattern(string namePattern) => this.GetEntitiesByNamePatternWrapper<Author>(namePattern);
 
-        public IReadOnlyList<Work> GetWorksByName(string name) => this.GetEntitiesByNameWrapper<Work>(name);
+        public IReadOnlyList<Work> GetWorksByNamePattern(string namePattern) => this.GetEntitiesByNamePatternWrapper<Work>(namePattern);
     }
 }

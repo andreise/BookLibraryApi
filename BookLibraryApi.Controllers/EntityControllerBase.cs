@@ -22,21 +22,22 @@ namespace BookLibraryApi.Controllers
         [HttpGet]
         public IReadOnlyList<string> Get()
         {
-            return this.repository.GetAll().Select(item => ControllerHelper.Serialize(item)).ToArray();
+            var entities = this.repository.GetAll();
+            return ControllerHelper.SerializeEntities(entities).ToArray();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return ControllerHelper.Serialize(this.repository.Get(id));
+            return ControllerHelper.SerializeEntity(this.repository.Get(id));
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)
         {
-            var entity = ControllerHelper.Deserialize<TEntity>(value);
+            var entity = ControllerHelper.DeserializeEntity<TEntity>(value);
 
             this.repository.Add(entity);
             this.repository.SaveChanges();
@@ -46,7 +47,7 @@ namespace BookLibraryApi.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
-            var entity = ControllerHelper.Deserialize<TEntity>(value);
+            var entity = ControllerHelper.DeserializeEntity<TEntity>(value);
 
             this.repository.Update(id, entity);
             this.repository.SaveChanges();

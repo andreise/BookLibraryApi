@@ -1,0 +1,92 @@
+﻿using BookLibraryApi.Models.Contexts;
+using BookLibraryApi.Models.Entities;
+using BookLibraryApi.Models.Entities.Interfaces;
+using BookLibraryApi.Models.EntityLinks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BookLibraryApi.Repositories.SpecificRepositories
+{
+    public sealed class SearchRepository
+    {
+        private readonly BookLibraryContext context;
+
+        public SearchRepository(BookLibraryContext context)
+        {
+            this.context = context;
+        }
+
+        private IQueryable<WorkAuthorLink> GetWorkAuthorLinksByAuthorInternal(int authorId) =>
+            context.Set<WorkAuthorLink>()
+            .Where(item => item.AuthorId == authorId);
+
+        private IQueryable<Work> GetWorksByAuthorInternal(int authorId)
+        {
+            var workAuthorLinksByAuthor = this.GetWorkAuthorLinksByAuthorInternal(authorId);
+            var works = context.Set<Work>();
+
+            return workAuthorLinksByAuthor.Join(
+                works,
+                outer => outer.WorkId,
+                inner => inner.Id,
+                (outer, inner) => inner);
+        }
+
+        private IQueryable<Work> GetWorksByGenreInternal(int genreId) =>
+            context.Set<Work>()
+            .Where(item => new[] { item.GenreId, item.AltGenreId }.Contains(genreId));
+
+        private IQueryable<Work> GetWorksByAuthorAndGenreInternal(int authorId, int genreId)
+        {
+            var workAuthorLinksByAuthor = this.GetWorkAuthorLinksByAuthorInternal(authorId);
+            var worksByGenre = this.GetWorksByGenreInternal(genreId);
+
+            return workAuthorLinksByAuthor.Join(
+                worksByGenre,
+                outer => outer.WorkId,
+                inner => inner.Id,
+                (outer, inner) => inner);
+        }
+
+        private static string[] SplitName(string name) =>
+            name.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+
+        private static bool IsMatchName(string[] pattern, string name)
+        {
+            string[] nameItems = SplitName(name);
+
+            return pattern.All(
+                patternItem => nameItems.Any(
+                    nameItem => nameItem.StartsWith(patternItem, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        private IQueryable<TEntity> GetEntitiesByNameInternal<TEntity>(string name) where TEntity : class, IEntityWithName
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            string[] namePattern = SplitName(name);
+
+            return context.Set<TEntity>()
+                .Where(item => !string.IsNullOrWhiteSpace(item.Name))
+                .Where(item => IsMatchName(namePattern, item.Name));
+        }
+
+        private IReadOnlyList<TEntity> GetEntitiesByNameWrapper<TEntity>(string name) where TEntity : class, IEntityWithName =>
+            this.GetEntitiesByNameInternal<TEntity>(name)?.ToArray() ?? new TEntity[] { };
+
+        public IReadOnlyList<Work> GetWorksByAuthor(int authorId) =>
+            this.GetWorksByAuthorInternal(authorId).ToArray();
+
+        public IReadOnlyList<Work> GetWorksByGenre(int genreId) =>
+            this.GetWorksByGenreInternal(genreId).ToArray();
+
+        public IReadOnlyList<Work> GetWorksByAuthorAndGenre(int authorId, int genreId) =>
+            this.GetWorksByAuthorAndGenreInternal(authorId, genreId).ToArray();
+
+        public IReadOnlyList<Author> GetAuthorsByName(string name) => this.GetEntitiesByNameWrapper<Author>(name);
+
+        public IReadOnlyList<Work> GetWorksByName(string name) => this.GetEntitiesByNameWrapper<Work>(name);
+    }
+}

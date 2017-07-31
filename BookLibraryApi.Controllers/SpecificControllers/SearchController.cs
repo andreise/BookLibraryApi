@@ -15,36 +15,36 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             this.repository = repository;
         }
 
-        [HttpGet("works/authors/{authorId}")]
-        public IReadOnlyList<string> GetWorksByAuthor([FromBody]int authorId)
+        [HttpGet("authors/{authorId}/works")]
+        public IReadOnlyList<string> GetWorksByAuthor(int authorId)
         {
             var entities = this.repository.GetWorksByAuthor(authorId);
             return ControllerHelper.SerializeEntities(entities).ToArray();
         }
 
-        [HttpGet("works/genres/{genreId}")]
-        public IReadOnlyList<string> GetWorksByGenre([FromBody]int genreId)
+        [HttpGet("genres/{genreId}/works")]
+        public IReadOnlyList<string> GetWorksByGenre(int genreId)
         {
             var entities = this.repository.GetWorksByGenre(genreId);
             return ControllerHelper.SerializeEntities(entities).ToArray();
         }
 
-        [HttpGet("works/authors/{authorId}/genres/{genreId}")]
-        public IReadOnlyList<string> GetWorksByAuthorAndGenre([FromBody]int authorId, [FromBody]int genreId)
+        [HttpGet("authors/{authorId}/genres/{genreId}/works")]
+        public IReadOnlyList<string> GetWorksByAuthorAndGenre(int authorId, int genreId)
         {
             var entities = this.repository.GetWorksByAuthorAndGenre(authorId, genreId);
             return ControllerHelper.SerializeEntities(entities).ToArray();
         }
 
-        [HttpGet("authors/namepattern/{namePattern}")]
-        public IReadOnlyList<string> GetAuthorsByNamePattern([FromBody]string namePattern)
+        [HttpGet("namepattern/{namePattern}/works")]
+        public IReadOnlyList<string> GetAuthorsByNamePattern(string namePattern)
         {
             var entities = this.repository.GetAuthorsByNamePattern(namePattern);
             return ControllerHelper.SerializeEntities(entities).ToArray();
         }
 
-        [HttpGet("works/namepattern/{namePattern}")]
-        public IReadOnlyList<string> GetWorksByNamePattern([FromBody]string namePattern)
+        [HttpGet("namepattern/{namePattern}/works")]
+        public IReadOnlyList<string> GetWorksByNamePattern(string namePattern)
         {
             var entities = this.repository.GetWorksByNamePattern(namePattern);
             return ControllerHelper.SerializeEntities(entities).ToArray();

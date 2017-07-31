@@ -1,6 +1,7 @@
 ﻿using BookLibraryApi.Models.Contexts;
 using BookLibraryApi.Repositories.EntityRepositories;
 using BookLibraryApi.Repositories.EntityLinkRepositories;
+using BookLibraryApi.Repositories.SpecificRepositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,10 @@ namespace BookLibraryApi
             services.AddSingleton<EditionVolumeLinksRepository>();
             services.AddSingleton<VolumeWorkLinksRepository>();
             services.AddSingleton<WorkAuthorLinksRepository>();
+
+            // Specific Reposotories
+
+            services.AddSingleton<SearchRepository>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

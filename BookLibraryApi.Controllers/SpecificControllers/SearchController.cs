@@ -26,7 +26,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
         public SearchController(SearchRepository repository, ILoggerFactory loggerFactory)
         {
             this.repository = repository;
-            this.logger = loggerFactory.CreateLogger<SearchController>();
+            this.logger = loggerFactory?.CreateLogger<SearchController>();
         }
 
         [HttpGet("authors/{authorId}/works")]
@@ -40,7 +40,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByAuthor)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByAuthor)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -58,7 +58,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByGenre)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByGenre)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -76,7 +76,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByAuthorAndGenre)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByAuthorAndGenre)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -94,7 +94,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError(new EventId(0, $"{nameof(GetAuthorsByNamePattern)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(0, $"{nameof(GetAuthorsByNamePattern)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -112,7 +112,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByNamePattern)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByNamePattern)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 

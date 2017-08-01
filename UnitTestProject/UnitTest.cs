@@ -32,7 +32,7 @@ namespace UnitTestProject
 
         private static void FillDatabase(BookLibraryContext context)
         {
-            // Entities
+            // Entity Controllers
 
             var authorsController = new AuthorsController(new AuthorsRepository(context), null);
             var editionsController = new EditionsController(new EditionsRepository(context), null);
@@ -42,13 +42,19 @@ namespace UnitTestProject
             var worksController = new WorksController(new WorksRepository(context), null);
             var workKindsController = new WorkKindsController(new WorkKindsRepository(context), null);
 
-            // Entity Links
+            // Entity Link Controllers
 
             var editionVolumeLinksController = new EditionVolumeLinksController(new EditionVolumeLinksRepository(context), null);
             var volumeWorkLinksController = new VolumeWorkLinksController(new VolumeWorkLinksRepository(context), null);
             var workAuthorLinksController = new WorkAuthorLinksController(new WorkAuthorLinksRepository(context), null);
 
-            IActionResult result = authorsController.Get(0);
+            IActionResult result;
+            Author authorJackLondon;
+            Author authorTheodoreDreiser;
+            Genre genreBellesletres;
+            Genre genreRealism;
+
+            result = authorsController.Get(0);
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
 
             result = authorsController.Put(0, new Author { Id = 0, Name = "Jack London" });
@@ -57,20 +63,20 @@ namespace UnitTestProject
             result = authorsController.Post(new Author { Name = "Jack London" });
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
-            Assert.IsTrue(((Author)((OkObjectResult)result).Value).Id != 0);
+            authorJackLondon = (Author)((OkObjectResult)result).Value;
+            Assert.IsTrue(authorJackLondon.Id != 0);
 
             result = authorsController.Post(new Author { Name = "Theodore Dreiser" });
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
+            authorTheodoreDreiser = (Author)((OkObjectResult)result).Value;
 
-            var createdAuthor = (Author)((OkObjectResult)result).Value;
-            createdAuthor.Name = "Theodore Herman Albert Dreiser";
-
-            result = authorsController.Put(createdAuthor.Id, createdAuthor);
+            authorTheodoreDreiser.Name = "Theodore Herman Albert Dreiser";
+            result = authorsController.Put(authorTheodoreDreiser.Id, authorTheodoreDreiser);
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
-            createdAuthor = (Author)((OkObjectResult)result).Value;
-            Assert.IsTrue(createdAuthor.Name == "Theodore Herman Albert Dreiser");
+            authorTheodoreDreiser = (Author)((OkObjectResult)result).Value;
+            Assert.IsTrue(authorTheodoreDreiser.Name == "Theodore Herman Albert Dreiser");
 
             genresController.Post(new Genre { Name = "Belles-letres" });
             genresController.Post(new Genre { Name = "Realism" });

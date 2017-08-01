@@ -102,7 +102,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (ArgumentException ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
                 return BadRequest();
             }
             catch (Exception ex)

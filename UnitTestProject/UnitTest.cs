@@ -1,19 +1,18 @@
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DatabaseHelpers.Common;
-using BookLibraryApi.Models.Entities;
-using BookLibraryApi.Models.EntityLinks;
-using BookLibraryApi.Models.Contexts;
-using BookLibraryApi.Repositories.EntityRepositories;
-using BookLibraryApi.Repositories.EntityLinkRepositories;
-using BookLibraryApi.Repositories.SpecificRepositories;
 using BookLibraryApi.Controllers.EntityControllers;
 using BookLibraryApi.Controllers.EntityLinkControllers;
 using BookLibraryApi.Controllers.SpecificControllers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using BookLibraryApi.Models.Contexts;
+using BookLibraryApi.Models.Entities;
+using BookLibraryApi.Models.EntityLinks;
+using BookLibraryApi.Repositories.EntityLinkRepositories;
+using BookLibraryApi.Repositories.EntityRepositories;
+using BookLibraryApi.Repositories.SpecificRepositories;
+using DatabaseHelpers.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTestProject
 {
@@ -105,6 +104,38 @@ namespace UnitTestProject
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
 
+        private static void DoSomeSearchingsInFilledDatabase(BookLibraryContext context)
+        {
+            // Specific Controllers
+
+            var searchController = new SearchController(new SearchRepository(context), null);
+
+            // Searching
+
+            IActionResult result;
+
+            result = searchController.GetAuthorsByNamePattern("Ja Lon");
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(IReadOnlyList<Author>));
+
+            var authorJackLondon = ((IReadOnlyList<Author>)((OkObjectResult)result).Value).FirstOrDefault();
+            Assert.IsNotNull(authorJackLondon);
+
+            result = searchController.GetAuthorsByNamePattern("Theo Drei");
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(IReadOnlyList<Author>));
+
+            var authorTheodoreDreiser = ((IReadOnlyList<Author>)((OkObjectResult)result).Value).FirstOrDefault();
+            Assert.IsNotNull(authorTheodoreDreiser);
+
+            result = searchController.GetWorksByNamePattern("Mar Ed");
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(IReadOnlyList<Work>));
+
+            var workMartenEden = ((IReadOnlyList<Work>)((OkObjectResult)result).Value).FirstOrDefault();
+            Assert.IsNotNull(workMartenEden);
+        }
+
         [TestMethod]
         public void TestCreateEmptyDatabase()
         {
@@ -122,5 +153,16 @@ namespace UnitTestProject
 
             FillDatabaseWithAdditionalChecks(context);
        }
+
+        [TestMethod]
+        public void TestCreateSampleDatabaseWithAdditionalChecksAndSearches()
+        {
+            var context = CreateContext();
+            context.Database.EnsureDeleted();
+            context.Database.Migrate();
+
+            FillDatabaseWithAdditionalChecks(context);
+            DoSomeSearchingsInFilledDatabase(context);
+        }
     }
 }

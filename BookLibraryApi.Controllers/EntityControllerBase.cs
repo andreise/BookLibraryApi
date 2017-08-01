@@ -80,6 +80,11 @@ namespace BookLibraryApi.Controllers
                 entity = this.repository.Add(entity);
                 this.repository.SaveChanges();
             }
+            catch (ArgumentException ex)
+            {
+                this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
+                return BadRequest();
+            }
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
@@ -108,6 +113,11 @@ namespace BookLibraryApi.Controllers
             {
                 this.repository.Update(id, entity);
                 this.repository.SaveChanges();
+            }
+            catch (ArgumentException ex)
+            {
+                this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
+                return BadRequest();
             }
             catch (Exception ex)
             {

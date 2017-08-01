@@ -2,6 +2,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DatabaseHelpers.Common;
 using BookLibraryApi.Models.Entities;
+using BookLibraryApi.Models.EntityLinks;
 using BookLibraryApi.Models.Contexts;
 using BookLibraryApi.Repositories.EntityRepositories;
 using BookLibraryApi.Repositories.EntityLinkRepositories;
@@ -30,7 +31,7 @@ namespace UnitTestProject
             return new BookLibraryContext(optionsBuilder.Options);
         }
 
-        private static void FillDatabase(BookLibraryContext context)
+        private static void FillDatabaseWithAdditionalChecks(BookLibraryContext context)
         {
             // Entity Controllers
 
@@ -48,11 +49,17 @@ namespace UnitTestProject
             var volumeWorkLinksController = new VolumeWorkLinksController(new VolumeWorkLinksRepository(context), null);
             var workAuthorLinksController = new WorkAuthorLinksController(new WorkAuthorLinksRepository(context), null);
 
+            // Filling and checking
+
             IActionResult result;
             Author authorJackLondon;
             Author authorTheodoreDreiser;
             Genre genreBellesletres;
             Genre genreRealism;
+            Work workMartenEden;
+            Work workWhiteFang;
+            Work workFinancier;
+            Work workSisterCarrie;
 
             result = authorsController.Get(0);
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
@@ -78,14 +85,24 @@ namespace UnitTestProject
             authorTheodoreDreiser = (Author)((OkObjectResult)result).Value;
             Assert.IsTrue(authorTheodoreDreiser.Name == "Theodore Herman Albert Dreiser");
 
-            genresController.Post(new Genre { Name = "Belles-letres" });
-            genresController.Post(new Genre { Name = "Realism" });
+            genreBellesletres = (Genre)((OkObjectResult)genresController.Post(new Genre { Name = "Belles-letres" })).Value;
+            genreRealism = (Genre)((OkObjectResult)genresController.Post(new Genre { Name = "Realism" })).Value;
 
-            worksController.Post(new Work { Name = "Marten Eden" });
-            worksController.Post(new Work { Name = "White Fang" });
+            workMartenEden = (Work)((OkObjectResult)worksController.Post(new Work { Name = "Marten Eden", GenreId = genreBellesletres.Id })).Value;
+            workWhiteFang = (Work)((OkObjectResult)worksController.Post(new Work { Name = "White Fang", GenreId = genreBellesletres.Id })).Value;
 
-            worksController.Post(new Work { Name = "Finacier" });
-            worksController.Post(new Work { Name = "White Fang" });
+            workFinancier = (Work)((OkObjectResult)worksController.Post(new Work { Name = "Financier", GenreId = genreRealism.Id, AltGenreId = genreBellesletres.Id })).Value;
+            workSisterCarrie = (Work)((OkObjectResult)worksController.Post(new Work { Name = "Sister Carrie", GenreId = genreRealism.Id, AltGenreId = genreBellesletres.Id })).Value;
+
+            result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workMartenEden.Id, AuthorId = authorJackLondon.Id });
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workWhiteFang.Id, AuthorId = authorJackLondon.Id });
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+
+            result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workFinancier.Id, AuthorId = authorTheodoreDreiser.Id });
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workSisterCarrie.Id, AuthorId = authorTheodoreDreiser.Id });
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
 
         [TestMethod]
@@ -97,13 +114,13 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void TestCreateSampleDatabase()
+        public void TestCreateSampleDatabaseWithAdditionalChecks()
         {
             var context = CreateContext();
             context.Database.EnsureDeleted();
             context.Database.Migrate();
 
-            FillDatabase(context);
+            FillDatabaseWithAdditionalChecks(context);
        }
     }
 }

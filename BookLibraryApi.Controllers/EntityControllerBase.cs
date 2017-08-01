@@ -2,8 +2,6 @@
 using BookLibraryApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using BookLibraryApi.Models.Entities;
-using System.Linq;
 
 namespace BookLibraryApi.Controllers
 {

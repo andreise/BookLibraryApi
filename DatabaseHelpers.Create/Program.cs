@@ -6,7 +6,7 @@ namespace DatabaseHelpers.Create
     {
         static void Main(string[] args)
         {
-            DatabaseHelper.CreateDatabase(DatabaseHelper.GetDatabaseName());
+            DatabaseHelper.CreateDatabase(DatabaseHelper.GetDatabaseDevelopmentName());
         }
     }
 }

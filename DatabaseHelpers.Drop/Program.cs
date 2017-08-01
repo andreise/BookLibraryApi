@@ -6,7 +6,7 @@ namespace DatabaseHelpers.Drop
     {
         static void Main(string[] args)
         {
-            DatabaseHelper.DropDatabase(DatabaseHelper.GetDatabaseName());
+            DatabaseHelper.DropDatabase(DatabaseHelper.GetDatabaseDevelopmentName());
         }
     }
 }

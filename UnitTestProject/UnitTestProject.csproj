@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BookLibraryApi.Controllers\BookLibraryApi.Controllers.csproj" />
     <ProjectReference Include="..\BookLibraryApi.Models\BookLibraryApi.Models.csproj" />
+    <ProjectReference Include="..\BookLibraryApi\BookLibraryApi.csproj" />
     <ProjectReference Include="..\DatabaseHelpers.Common\DatabaseHelpers.Common.csproj" />
     <ProjectReference Include="..\DatabaseHelpers.Drop\DatabaseHelpers.Drop.csproj" />
   </ItemGroup>

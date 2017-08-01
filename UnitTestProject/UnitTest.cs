@@ -12,7 +12,7 @@ namespace UnitTestProject
     [TestClass]
     public class UnitTest
     {
-        private static void DeleteDatabase() => DatabaseHelper.DropDatabase(DatabaseHelper.GetDatabaseName());
+        private static void DeleteDatabase() => DatabaseHelper.DropDatabase(DatabaseHelper.GetDatabaseTestName());
 
         private static void DeleteDatabaseSilent()
         {
@@ -25,43 +25,46 @@ namespace UnitTestProject
             }
         }
 
-        public static void CreateDatabase() => DatabaseHelper.CreateDatabase(DatabaseHelper.GetDatabaseName());
+        private static void CreateDatabase() => DatabaseHelper.CreateDatabase(DatabaseHelper.GetDatabaseTestName());
+
+        private static BookLibraryContext CreateContext()
+        {
+            DbContextOptionsBuilder<BookLibraryContext> optionsBuilder = new DbContextOptionsBuilder<BookLibraryContext>();
+            optionsBuilder.UseSqlServer(
+                DatabaseHelper.GetConnectionString(DatabaseHelper.GetDatabaseTestName()),
+                builder => builder.MigrationsAssembly("BookLibraryApi"));
+
+            return new BookLibraryContext(optionsBuilder.Options);
+        }
 
         [TestMethod]
         public void TestCreateDatabase()
         {
             DeleteDatabaseSilent();
-
             CreateDatabase();
-        }
-
-        private static void CreateDatabaseScheme()
-        {
-            // TODO: Perform migration
-        }
-
-        private static void RecreateDatabaseWithScheme()
-        {
-            DeleteDatabaseSilent();
-
-            CreateDatabase();
-
-            CreateDatabaseScheme();
         }
 
         [TestMethod]
-        public void TestCreateAndFillDatabase()
+        public void TestEnsureDeletedDatabase()
         {
-            // TODO: Uncomment 'RecreateDatabaseWithScheme'
-            // when CreateDatabaseScheme will be implemented.
-            
-            // Until CreateDatabaseScheme is not implemented,
-            // you can drop database by DatabaseHelpers.Drop app starting,
-            // and then run Update-Database in Package Manager Console
-            // to create and migrate database
+            var context = CreateContext();
+            context.Database.EnsureDeleted();
+        }
 
-            //RecreateDatabaseWithScheme();
+        [TestMethod]
+        public void TestEnsureCreatedDatabase()
+        {
+            var context = CreateContext();
+            context.Database.EnsureCreated();
+        }
 
+        [TestMethod]
+        public void TestMigrateDatabase()
+        {
+            DeleteDatabaseSilent();
+
+            var context = CreateContext();
+            context.Database.Migrate();
         }
     }
 }

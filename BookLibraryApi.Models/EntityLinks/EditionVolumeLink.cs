@@ -7,11 +7,11 @@ namespace BookLibraryApi.Models.EntityLinks
     {
         public int Id { get; set; }
 
-        public int? EditionId { get; set; }
+        public int EditionId { get; set; }
 
         public Edition Edition { get; set; }
 
-        public int? VolumeId { get; set; }
+        public int VolumeId { get; set; }
 
         public Volume Volume { get; set; }
     }

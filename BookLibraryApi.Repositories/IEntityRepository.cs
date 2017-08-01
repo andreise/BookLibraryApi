@@ -11,11 +11,11 @@ namespace BookLibraryApi.Repositories
 
         TEntity Get(int id);
 
-        void Add(TEntity entity);
+        TEntity Add(TEntity entity);
 
-        void Update(int id, TEntity entity);
+        TEntity Update(int id, TEntity entity);
 
-        void Remove(int id);
+        TEntity Remove(int id);
 
         void SaveChanges();
     }

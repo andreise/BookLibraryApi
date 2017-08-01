@@ -21,25 +21,33 @@ namespace BookLibraryApi.Repositories
 
         public virtual TEntity Get(int id) => this.context.Find<TEntity>(id);
 
-        public virtual void Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             Contract.RequiresArgumentNotNull(entity, nameof(entity));
             Contract.RequiresArgument(entity.Id is null, "Entity ID must be null.", nameof(entity));
 
-            this.context.Add(entity);
+            return this.context.Add(entity).Entity;
         }
 
-        public virtual void Update(int id, TEntity entity)
+        public virtual TEntity Update(int id, TEntity entity)
         {
             Contract.RequiresArgumentNotNull(entity, nameof(entity));
             Contract.RequiresArgument(
                 entity.Id is null || entity.Id == id, "Entity ID must be null or equals to the specified ID.", nameof(entity));
 
             entity.Id = id;
-            this.context.Update(entity);
+            return this.context.Update(entity).Entity;
         }
 
-        public virtual void Remove(int id) => this.context.Remove(this.Get(id));
+        public virtual TEntity Remove(int id)
+        {
+            var entity = this.Get(id);
+
+            if (entity is null)
+                return null;
+
+            return this.context.Remove(entity).Entity;
+        }
 
         public virtual void SaveChanges() => this.context.SaveChanges();
     }

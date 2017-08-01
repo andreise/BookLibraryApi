@@ -1,7 +1,8 @@
 ﻿using BookLibraryApi.Data.Common;
 using BookLibraryApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System;
+using BookLibraryApi.Models.Entities;
 using System.Linq;
 
 namespace BookLibraryApi.Controllers
@@ -19,45 +20,124 @@ namespace BookLibraryApi.Controllers
         }
 
         // GET api/values
+        [Route("all")]
         [HttpGet]
-        public IReadOnlyList<string> Get()
+        public IActionResult GetAll()
         {
-            var entities = this.repository.GetAll();
-            return ControllerHelper.SerializeEntities(entities).ToArray();
+            try
+            {
+                var entities = this.repository.GetAll();
+                return Ok(entities);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log
+                return StatusCode(500);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return ControllerHelper.SerializeEntity(this.repository.Get(id));
+            TEntity entity;
+
+            try
+            {
+                entity = this.repository.Get(id);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log
+                return StatusCode(500);
+            }
+
+            if (entity is null)
+                return NotFound();
+
+            return Ok(entity);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]string value)
         {
-            var entity = ControllerHelper.DeserializeEntity<TEntity>(value);
+            TEntity entity;
 
-            this.repository.Add(entity);
-            this.repository.SaveChanges();
+            try
+            {
+                entity = ControllerHelper.DeserializeEntity<TEntity>(value);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log
+                return BadRequest();
+            }
+
+            try
+            {
+                entity = this.repository.Add(entity);
+                this.repository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log
+                return StatusCode(500);
+            }
+
+            return CreatedAtAction(nameof(repository.Add), entity);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]string value)
         {
-            var entity = ControllerHelper.DeserializeEntity<TEntity>(value);
+            TEntity entity;
 
-            this.repository.Update(id, entity);
-            this.repository.SaveChanges();
+            try
+            {
+                entity = ControllerHelper.DeserializeEntity<TEntity>(value);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log
+                return BadRequest();
+            }
+
+            try
+            {
+                this.repository.Update(id, entity);
+                this.repository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log
+                return StatusCode(500);
+            }
+
+            return CreatedAtAction(nameof(repository.Update), entity);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            this.repository.Remove(id);
+            TEntity entity;
+
+            try
+            {
+                entity = this.repository.Remove(id);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log
+                return StatusCode(500);
+            }
+
+            if (entity is null)
+                return NotFound();
+
+            return Ok();
         }
     }
 }

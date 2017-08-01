@@ -1,6 +1,7 @@
 ﻿using BookLibraryApi.Data.Common;
 using BookLibraryApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace BookLibraryApi.Controllers
@@ -12,9 +13,12 @@ namespace BookLibraryApi.Controllers
     {
         private readonly TEntityRepository repository;
 
-        public EntityControllerBase(TEntityRepository repository)
+        private readonly ILogger logger;
+
+        public EntityControllerBase(TEntityRepository repository, ILoggerFactory loggerFactory)
         {
             this.repository = repository;
+            this.logger = loggerFactory.CreateLogger<EntityControllerBase<TEntityRepository, TEntity>>();
         }
 
         // GET api/values
@@ -29,7 +33,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(GetAll)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
         }
@@ -46,7 +50,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(Get)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -68,7 +72,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
                 return BadRequest();
             }
 
@@ -98,7 +102,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
                 return BadRequest();
             }
 
@@ -128,7 +132,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(Delete)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 

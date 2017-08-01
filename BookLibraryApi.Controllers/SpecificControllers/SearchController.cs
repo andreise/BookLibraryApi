@@ -1,6 +1,7 @@
 ﻿using BookLibraryApi.Models.Entities;
 using BookLibraryApi.Repositories.SpecificRepositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -13,14 +14,17 @@ namespace BookLibraryApi.Controllers.SpecificControllers
 
         private readonly SearchRepository repository;
 
+        private readonly ILogger logger;
+
         private IActionResult GetActionResult<TEntity>(IReadOnlyList<TEntity> entities) =>
             entities.Count == 0 && this.returnNotFoundOnEmptyList ?
                 (IActionResult)NotFound() :
                 (IActionResult)Ok(entities);
 
-        public SearchController(SearchRepository repository)
+        public SearchController(SearchRepository repository, ILoggerFactory loggerFactory)
         {
             this.repository = repository;
+            this.logger = loggerFactory.CreateLogger<SearchController>();
         }
 
         [HttpGet("authors/{authorId}/works")]
@@ -34,7 +38,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByAuthor)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -52,7 +56,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByGenre)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -70,7 +74,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByAuthorAndGenre)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -88,7 +92,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(GetAuthorsByNamePattern)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -106,7 +110,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(GetWorksByNamePattern)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 

@@ -102,6 +102,8 @@ namespace UnitTestProject
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workSisterCarrie.Id, AuthorId = authorTheodoreDreiser.Id });
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+
+            Assert.IsTrue(authorTheodoreDreiser.Id != authorJackLondon.Id);
         }
 
         private static void DoSomeSearchingsInFilledDatabase(BookLibraryContext context)
@@ -134,6 +136,24 @@ namespace UnitTestProject
 
             var workMartenEden = ((IReadOnlyList<Work>)((OkObjectResult)result).Value).FirstOrDefault();
             Assert.IsNotNull(workMartenEden);
+
+            result = searchController.GetWorksByAuthor(authorTheodoreDreiser.Id);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(IReadOnlyList<Work>));
+            Assert.IsTrue(((IReadOnlyList<Work>)((OkObjectResult)result).Value).Count == 2);
+
+            Assert.IsNotNull(workMartenEden.GenreId);
+            int someGenreId = workMartenEden.GenreId.Value;
+
+            result = searchController.GetWorksByGenre(someGenreId);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(IReadOnlyList<Work>));
+            Assert.IsTrue(((IReadOnlyList<Work>)((OkObjectResult)result).Value).Count == 4);
+
+            result = searchController.GetWorksByAuthorAndGenre(authorJackLondon.Id, someGenreId);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(IReadOnlyList<Work>));
+            Assert.IsTrue(((IReadOnlyList<Work>)((OkObjectResult)result).Value).Count == 2);
         }
 
         [TestMethod]

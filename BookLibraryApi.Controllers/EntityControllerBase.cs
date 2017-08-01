@@ -63,6 +63,9 @@ namespace BookLibraryApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]TEntity entity)
         {
+            if (entity is null)
+                return BadRequest();
+
             try
             {
                 entity = this.repository.Add(entity);
@@ -85,10 +88,17 @@ namespace BookLibraryApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]TEntity entity)
         {
+            if (entity is null)
+                return BadRequest();
+
+            TEntity updatedEntity;
+
             try
             {
-                this.repository.Update(id, entity);
-                this.repository.SaveChanges();
+                updatedEntity = this.repository.Update(id, entity);
+
+                if (!(updatedEntity is null))
+                    this.repository.SaveChanges();
             }
             catch (ArgumentException ex)
             {
@@ -100,6 +110,9 @@ namespace BookLibraryApi.Controllers
                 this.logger?.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
+
+            if (updatedEntity is null)
+                return NotFound();
 
             return Ok(entity);
         }

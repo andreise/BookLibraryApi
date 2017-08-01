@@ -35,6 +35,9 @@ namespace BookLibraryApi.Repositories
             Contract.RequiresArgument(
                 entity.Id is null || entity.Id == id, "Entity ID must be null or equals to the specified ID.", nameof(entity));
 
+            if (this.Get(id) is null)
+                return null;
+
             entity.Id = id;
             return this.context.Update(entity).Entity;
         }

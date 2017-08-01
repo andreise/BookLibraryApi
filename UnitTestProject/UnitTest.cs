@@ -49,11 +49,18 @@ namespace UnitTestProject
             var workAuthorLinksController = new WorkAuthorLinksController(new WorkAuthorLinksRepository(context), null);
 
 
-            IActionResult result =
-                authorsController.Put(0, new Author { Id = 0, Name = "Jack London" });
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            IActionResult// result =
+            //    authorsController.Put(0, new Author { Id = 0, Name = "Jack London" });
+            //Assert.IsInstanceOfType(result, typeof(NotFoundResult));
 
             result = authorsController.Post(new Author { Name = "Jack London" });
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+
+            var x = result as OkObjectResult;
+            var y = (Author)x.Value;
+            //Assert.IsTrue(y.Id != null);
+
+            result = authorsController.Get((int)y.Id);
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
 
             var createdAuthor = ((OkObjectResult)result).Value as Author;

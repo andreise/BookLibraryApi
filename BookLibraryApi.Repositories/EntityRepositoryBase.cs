@@ -24,7 +24,6 @@ namespace BookLibraryApi.Repositories
         public virtual TEntity Add(TEntity entity)
         {
             Contract.RequiresArgumentNotNull(entity, nameof(entity));
-            Contract.RequiresArgument(entity.Id is null, "Entity ID must be null.", nameof(entity));
 
             return this.context.Add(entity).Entity;
         }
@@ -33,7 +32,7 @@ namespace BookLibraryApi.Repositories
         {
             Contract.RequiresArgumentNotNull(entity, nameof(entity));
             Contract.RequiresArgument(
-                entity.Id is null || entity.Id == id, "Entity ID must be null or equals to the specified ID.", nameof(entity));
+                entity.Id == id, "Entity ID must be equals to the specified ID.", nameof(entity));
 
             if (this.Get(id) is null)
                 return null;

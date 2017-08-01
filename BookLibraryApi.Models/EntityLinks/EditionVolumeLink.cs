@@ -5,7 +5,7 @@ namespace BookLibraryApi.Models.EntityLinks
 {
     public sealed class EditionVolumeLink : IEntity
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public int? EditionId { get; set; }
 

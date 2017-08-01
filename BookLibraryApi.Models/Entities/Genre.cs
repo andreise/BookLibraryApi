@@ -4,7 +4,7 @@ namespace BookLibraryApi.Models.Entities
 {
     public sealed class Genre : IEntityWithNameAndDescription
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

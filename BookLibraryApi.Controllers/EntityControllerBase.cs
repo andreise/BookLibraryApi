@@ -91,7 +91,7 @@ namespace BookLibraryApi.Controllers
                 return StatusCode(500);
             }
 
-            return CreatedAtAction(nameof(repository.Add), entity);
+            return Ok(entity);
         }
 
         [HttpPut("{id}")]
@@ -125,7 +125,7 @@ namespace BookLibraryApi.Controllers
                 return StatusCode(500);
             }
 
-            return CreatedAtAction(nameof(repository.Update), entity);
+            return Ok(entity);
         }
 
         [HttpDelete("{id}")]

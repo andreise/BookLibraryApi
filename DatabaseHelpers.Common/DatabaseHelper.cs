@@ -4,7 +4,7 @@ namespace DatabaseHelpers.Common
 {
     public static class DatabaseHelper
     {
-        public static string GetDatabaseName() => "BookLibraryContext";
+        public static string GetDatabaseName() => "BookLibraryContext_Development";
 
         public static string GetConnectionString(string database = null) =>
             $"Server=(localdb)\\mssqllocaldb;Database={database};Trusted_Connection=True;MultipleActiveResultSets=true";

@@ -1,11 +1,13 @@
 ﻿using BookLibraryApi.Data.Common;
 using BookLibraryApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 
 namespace BookLibraryApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public abstract class EntityControllerBase<TEntityRepository, TEntity> : Controller
         where TEntityRepository : IEntityRepository<TEntity>

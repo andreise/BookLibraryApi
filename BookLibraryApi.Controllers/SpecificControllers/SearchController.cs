@@ -1,5 +1,6 @@
 ﻿using BookLibraryApi.Models.Entities;
 using BookLibraryApi.Repositories.SpecificRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 
 namespace BookLibraryApi.Controllers.SpecificControllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public sealed class SearchController : Controller
     {

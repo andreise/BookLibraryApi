@@ -59,7 +59,18 @@ namespace UnitTestProject
             Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
             Assert.IsTrue(((Author)((OkObjectResult)result).Value).Id != 0);
 
-            authorsController.Post(new Author { Name = "Theodore Dreiser" });
+            result = authorsController.Post(new Author { Name = "Theodore Dreiser" });
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
+
+            var createdAuthor = (Author)((OkObjectResult)result).Value;
+            createdAuthor.Name = "Theodore Herman Albert Dreiser";
+
+            result = authorsController.Put(createdAuthor.Id, createdAuthor);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
+            createdAuthor = (Author)((OkObjectResult)result).Value;
+            Assert.IsTrue(createdAuthor.Name == "Theodore Herman Albert Dreiser");
 
             genresController.Post(new Genre { Name = "Belles-letres" });
             genresController.Post(new Genre { Name = "Realism" });

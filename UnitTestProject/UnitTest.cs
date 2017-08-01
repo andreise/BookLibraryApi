@@ -1,6 +1,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DatabaseHelpers.Common;
+using BookLibraryApi.Models.Entities;
 using BookLibraryApi.Models.Contexts;
 using BookLibraryApi.Repositories.EntityRepositories;
 using BookLibraryApi.Repositories.EntityLinkRepositories;
@@ -49,19 +50,25 @@ namespace UnitTestProject
 
 
             IActionResult result =
-                authorsController.Post(JsonConvert.SerializeObject( new { Name = "Jack London" }));
-            Assert.IsTrue(result is OkResult);
+                authorsController.Put(0, new Author { Id = 0, Name = "Jack London" });
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
 
-            authorsController.Post(JsonConvert.SerializeObject(new { Name = "Theodore Dreiser" }));
+            result = authorsController.Post(new Author { Name = "Jack London" });
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
 
-            genresController.Post(JsonConvert.SerializeObject(new { Name = "Belles-letres" }));
-            genresController.Post(JsonConvert.SerializeObject(new { Name = "Realism" }));
+            var createdAuthor = ((OkObjectResult)result).Value as Author;
+            Assert.IsNotNull(createdAuthor);
 
-            worksController.Post(JsonConvert.SerializeObject(new { Name = "Marten Eden" }));
-            worksController.Post(JsonConvert.SerializeObject(new { Name = "White Fang" }));
+            authorsController.Post(new Author { Name = "Theodore Dreiser" });
 
-            worksController.Post(JsonConvert.SerializeObject(new { Name = "Finacier" }));
-            worksController.Post(JsonConvert.SerializeObject(new { Name = "White Fang" }));
+            genresController.Post(new Genre { Name = "Belles-letres" });
+            genresController.Post(new Genre { Name = "Realism" });
+
+            worksController.Post(new Work { Name = "Marten Eden" });
+            worksController.Post(new Work { Name = "White Fang" });
+
+            worksController.Post(new Work { Name = "Finacier" });
+            worksController.Post(new Work { Name = "White Fang" });
         }
 
         [TestMethod]

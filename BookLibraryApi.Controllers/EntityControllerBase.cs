@@ -61,20 +61,8 @@ namespace BookLibraryApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]string value)
+        public IActionResult Post([FromBody]TEntity entity)
         {
-            TEntity entity;
-
-            try
-            {
-                entity = ControllerHelper.DeserializeEntity<TEntity>(value);
-            }
-            catch (Exception ex)
-            {
-                this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
-                return BadRequest();
-            }
-
             try
             {
                 entity = this.repository.Add(entity);
@@ -95,20 +83,8 @@ namespace BookLibraryApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]TEntity entity)
         {
-            TEntity entity;
-
-            try
-            {
-                entity = ControllerHelper.DeserializeEntity<TEntity>(value);
-            }
-            catch (Exception ex)
-            {
-                this.logger?.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
-                return BadRequest();
-            }
-
             try
             {
                 this.repository.Update(id, entity);

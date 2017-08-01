@@ -83,7 +83,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 
@@ -113,7 +113,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                this.logger.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
 

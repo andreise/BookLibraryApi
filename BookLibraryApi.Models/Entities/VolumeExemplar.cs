@@ -6,7 +6,7 @@ namespace BookLibraryApi.Models.Entities
     {
         public int Id { get; set; }
 
-        public int? VolumeId { get; set; }
+        public int VolumeId { get; set; }
 
         public Volume Volume { get; set; }
 

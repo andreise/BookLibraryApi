@@ -18,13 +18,13 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
         }
 
         private IQueryable<WorkAuthorLink> GetWorkAuthorLinksByAuthorInternal(int authorId) =>
-            context.Set<WorkAuthorLink>()
+            this.context.Set<WorkAuthorLink>()
             .Where(item => item.AuthorId == authorId);
 
         private IQueryable<Work> GetWorksByAuthorInternal(int authorId)
         {
             var workAuthorLinksByAuthor = this.GetWorkAuthorLinksByAuthorInternal(authorId);
-            var works = context.Set<Work>();
+            var works = this.context.Set<Work>();
 
             return workAuthorLinksByAuthor.Join(
                 works,
@@ -34,7 +34,7 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
         }
 
         private IQueryable<Work> GetWorksByGenreInternal(int genreId) =>
-            context.Set<Work>()
+            this.context.Set<Work>()
             .Where(item => new[] { item.GenreId, item.AltGenreId }.Contains(genreId));
 
         private IQueryable<Work> GetWorksByAuthorAndGenreInternal(int authorId, int genreId)
@@ -68,7 +68,7 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
 
             string[] pattern = SplitName(namePattern);
 
-            return context.Set<TEntity>()
+            return this.context.Set<TEntity>()
                 .Where(item => !string.IsNullOrWhiteSpace(item.Name))
                 .Where(item => IsMatchName(pattern, item.Name));
         }

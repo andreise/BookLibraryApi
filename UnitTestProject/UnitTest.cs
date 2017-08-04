@@ -77,6 +77,13 @@ namespace UnitTestProject
             Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
             authorTheodoreDreiser = (Author)((OkObjectResult)result).Value;
 
+            Assert.IsTrue(authorTheodoreDreiser.Id != authorJackLondon.Id);
+
+            result = authorsController.GetCount();
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(int));
+            Assert.IsTrue((int)((OkObjectResult)result).Value == 2);
+
             authorTheodoreDreiser.Name = "Theodore Herman Albert Dreiser";
             result = authorsController.Put(authorTheodoreDreiser.Id, authorTheodoreDreiser);
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
@@ -102,8 +109,6 @@ namespace UnitTestProject
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workSisterCarrie.Id, AuthorId = authorTheodoreDreiser.Id });
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-
-            Assert.IsTrue(authorTheodoreDreiser.Id != authorJackLondon.Id);
         }
 
         private static void DoSomeSearchingsInFilledDatabase(BookLibraryContext context)

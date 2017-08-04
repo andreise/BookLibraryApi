@@ -23,6 +23,22 @@ namespace BookLibraryApi.Controllers
             this.logger = loggerFactory?.CreateLogger<EntityControllerBase<TEntityRepository, TEntity>>();
         }
 
+        [Route("count")]
+        [HttpGet]
+        public IActionResult GetCount()
+        {
+            try
+            {
+                var count = this.repository.GetCount();
+                return Ok(count);
+            }
+            catch (Exception ex)
+            {
+                this.logger?.LogError(new EventId(0, $"{nameof(GetCount)} error"), ex, ex.GetExtendedMessage());
+                return StatusCode(500);
+            }
+        }
+
         [Route("all")]
         [HttpGet]
         public IActionResult GetAll()

@@ -130,7 +130,7 @@ namespace BookLibraryApi.Controllers
             if (updatedEntity is null)
                 return NotFound();
 
-            return Ok(entity);
+            return Ok(updatedEntity);
         }
 
         [HttpDelete("{id}")]

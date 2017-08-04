@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 
 namespace BookLibraryApi.Controllers
 {
@@ -27,32 +28,38 @@ namespace BookLibraryApi.Controllers
         [HttpGet]
         public IActionResult GetCount()
         {
+            int count;
+
             try
             {
-                var count = this.repository.GetCount();
-                return Ok(count);
+                count = this.repository.GetCount();
             }
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetCount)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
+
+            return Ok(count);
         }
 
         [Route("all")]
         [HttpGet]
         public IActionResult GetAll()
         {
+            IReadOnlyList<TEntity> entities;
+
             try
             {
-                var entities = this.repository.GetAll();
-                return Ok(entities);
+                entities = this.repository.GetAll();
             }
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetAll)} error"), ex, ex.GetExtendedMessage());
                 return StatusCode(500);
             }
+
+            return Ok(entities);
         }
 
         [HttpGet("{id}")]
@@ -107,13 +114,11 @@ namespace BookLibraryApi.Controllers
             if (entity is null)
                 return BadRequest();
 
-            TEntity updatedEntity;
-
             try
             {
-                updatedEntity = this.repository.Update(id, entity);
+                entity = this.repository.Update(id, entity);
 
-                if (!(updatedEntity is null))
+                if (!(entity is null))
                     this.repository.SaveChanges();
             }
             catch (ArgumentException ex)
@@ -127,10 +132,10 @@ namespace BookLibraryApi.Controllers
                 return StatusCode(500);
             }
 
-            if (updatedEntity is null)
+            if (entity is null)
                 return NotFound();
 
-            return Ok(updatedEntity);
+            return Ok(entity);
         }
 
         [HttpDelete("{id}")]

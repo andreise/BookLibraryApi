@@ -67,15 +67,15 @@ namespace UnitTestProject
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
 
             result = authorsController.Post(new Author { Name = "Jack London" });
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
-            authorJackLondon = (Author)((OkObjectResult)result).Value;
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
+            Assert.IsInstanceOfType(((CreatedAtActionResult)result).Value, typeof(Author));
+            authorJackLondon = (Author)((CreatedAtActionResult)result).Value;
             Assert.IsTrue(authorJackLondon.Id != 0);
 
             result = authorsController.Post(new Author { Name = "Theodore Dreiser" });
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
-            authorTheodoreDreiser = (Author)((OkObjectResult)result).Value;
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
+            Assert.IsInstanceOfType(((CreatedAtActionResult)result).Value, typeof(Author));
+            authorTheodoreDreiser = (Author)((CreatedAtActionResult)result).Value;
 
             Assert.IsTrue(authorTheodoreDreiser.Id != authorJackLondon.Id);
 
@@ -91,24 +91,24 @@ namespace UnitTestProject
             authorTheodoreDreiser = (Author)((OkObjectResult)result).Value;
             Assert.IsTrue(authorTheodoreDreiser.Name == "Theodore Herman Albert Dreiser");
 
-            genreBellesletres = (Genre)((OkObjectResult)genresController.Post(new Genre { Name = "Belles-letres" })).Value;
-            genreRealism = (Genre)((OkObjectResult)genresController.Post(new Genre { Name = "Realism" })).Value;
+            genreBellesletres = (Genre)((CreatedAtActionResult)genresController.Post(new Genre { Name = "Belles-letres" })).Value;
+            genreRealism = (Genre)((CreatedAtActionResult)genresController.Post(new Genre { Name = "Realism" })).Value;
 
-            workMartenEden = (Work)((OkObjectResult)worksController.Post(new Work { Name = "Marten Eden", GenreId = genreBellesletres.Id })).Value;
-            workWhiteFang = (Work)((OkObjectResult)worksController.Post(new Work { Name = "White Fang", GenreId = genreBellesletres.Id })).Value;
+            workMartenEden = (Work)((CreatedAtActionResult)worksController.Post(new Work { Name = "Marten Eden", GenreId = genreBellesletres.Id })).Value;
+            workWhiteFang = (Work)((CreatedAtActionResult)worksController.Post(new Work { Name = "White Fang", GenreId = genreBellesletres.Id })).Value;
 
-            workFinancier = (Work)((OkObjectResult)worksController.Post(new Work { Name = "Financier", GenreId = genreRealism.Id, AltGenreId = genreBellesletres.Id })).Value;
-            workSisterCarrie = (Work)((OkObjectResult)worksController.Post(new Work { Name = "Sister Carrie", GenreId = genreRealism.Id, AltGenreId = genreBellesletres.Id })).Value;
+            workFinancier = (Work)((CreatedAtActionResult)worksController.Post(new Work { Name = "Financier", GenreId = genreRealism.Id, AltGenreId = genreBellesletres.Id })).Value;
+            workSisterCarrie = (Work)((CreatedAtActionResult)worksController.Post(new Work { Name = "Sister Carrie", GenreId = genreRealism.Id, AltGenreId = genreBellesletres.Id })).Value;
 
             result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workMartenEden.Id, AuthorId = authorJackLondon.Id });
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
             result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workWhiteFang.Id, AuthorId = authorJackLondon.Id });
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
 
             result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workFinancier.Id, AuthorId = authorTheodoreDreiser.Id });
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
             result = workAuthorLinksController.Post(new WorkAuthorLink { WorkId = workSisterCarrie.Id, AuthorId = authorTheodoreDreiser.Id });
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
         }
 
         private static void DoSomeSearchingsInFilledDatabase(BookLibraryContext context)

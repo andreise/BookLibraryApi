@@ -100,7 +100,7 @@ namespace BookLibraryApi.Controllers
                 return InternalServerError();
             }
 
-            return Ok(entity);
+            return CreatedAtAction(nameof(Post), entity);
         }
 
         [HttpPut]

@@ -87,10 +87,10 @@ namespace BookLibraryApi.Controllers
         public IActionResult Post([FromBody]TEntity entity)
         {
             if (entity is null)
-                return BadRequest(new { Error = "Entity is null." });
+                return BadRequest("Entity is null.");
 
             if (entity.Id != 0)
-                return BadRequest(new { Error = "Entity ID must be equals to zero." });
+                return BadRequest("Entity ID must be equals to zero.");
 
             try
             {
@@ -110,7 +110,7 @@ namespace BookLibraryApi.Controllers
         public IActionResult Put([FromBody]TEntity entity)
         {
             if (entity is null)
-                return BadRequest(new { Error = "Entity is null." });
+                return BadRequest("Entity is null.");
 
             try
             {

@@ -66,6 +66,10 @@ namespace UnitTestProject
             result = authorsController.Put(new Author { Id = 0, Name = "Jack London" });
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
 
+            result = authorsController.Post(null);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.IsTrue(((BadRequestObjectResult)result).Value.Equals("Entity is null."));
+
             result = authorsController.Post(new Author { Name = "Jack London" });
             Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
             Assert.IsInstanceOfType(((CreatedAtActionResult)result).Value, typeof(Author));

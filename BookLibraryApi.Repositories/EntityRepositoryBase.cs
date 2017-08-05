@@ -28,16 +28,13 @@ namespace BookLibraryApi.Repositories
             return this.context.Add(entity).Entity;
         }
 
-        public virtual TEntity Update(int id, TEntity entity)
+        public virtual TEntity Update(TEntity entity)
         {
             Contract.RequiresArgumentNotNull(entity, nameof(entity));
-            Contract.RequiresArgument(
-                entity.Id == id, "Entity ID must be equals to the specified ID.", nameof(entity));
 
-            if (this.Get(id) is null)
+            if (this.Get(entity.Id) is null)
                 return null;
 
-            entity.Id = id;
             return this.context.Update(entity).Entity;
         }
 

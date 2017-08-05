@@ -94,11 +94,6 @@ namespace BookLibraryApi.Controllers
                 entity = this.repository.Add(entity);
                 this.repository.SaveChanges();
             }
-            catch (ArgumentException ex)
-            {
-                this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
-                return BadRequest();
-            }
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
@@ -108,23 +103,18 @@ namespace BookLibraryApi.Controllers
             return Ok(entity);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]TEntity entity)
+        [HttpPut]
+        public IActionResult Put([FromBody]TEntity entity)
         {
             if (entity is null)
                 return BadRequest();
 
             try
             {
-                entity = this.repository.Update(id, entity);
+                entity = this.repository.Update(entity);
 
                 if (!(entity is null))
                     this.repository.SaveChanges();
-            }
-            catch (ArgumentException ex)
-            {
-                this.logger?.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
-                return BadRequest();
             }
             catch (Exception ex)
             {

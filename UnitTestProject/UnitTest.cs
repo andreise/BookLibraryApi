@@ -63,7 +63,7 @@ namespace UnitTestProject
             result = authorsController.Get(0);
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
 
-            result = authorsController.Put(0, new Author { Id = 0, Name = "Jack London" });
+            result = authorsController.Put(new Author { Id = 0, Name = "Jack London" });
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
 
             result = authorsController.Post(new Author { Name = "Jack London" });
@@ -85,7 +85,7 @@ namespace UnitTestProject
             Assert.IsTrue((int)((OkObjectResult)result).Value == 2);
 
             authorTheodoreDreiser.Name = "Theodore Herman Albert Dreiser";
-            result = authorsController.Put(authorTheodoreDreiser.Id, authorTheodoreDreiser);
+            result = authorsController.Put(authorTheodoreDreiser);
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(Author));
             authorTheodoreDreiser = (Author)((OkObjectResult)result).Value;

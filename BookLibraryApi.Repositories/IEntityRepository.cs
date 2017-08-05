@@ -13,7 +13,7 @@ namespace BookLibraryApi.Repositories
 
         TEntity Add(TEntity entity);
 
-        TEntity Update(int id, TEntity entity);
+        TEntity Update(TEntity entity);
 
         TEntity Remove(int id);
 

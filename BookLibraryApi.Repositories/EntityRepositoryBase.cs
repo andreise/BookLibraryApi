@@ -24,6 +24,7 @@ namespace BookLibraryApi.Repositories
         public virtual TEntity Add(TEntity entity)
         {
             Contract.RequiresArgumentNotNull(entity, nameof(entity));
+            Contract.RequiresArgument(entity.Id == 0, "Entity ID must be equals to zero.", nameof(entity));
 
             return this.context.Add(entity).Entity;
         }

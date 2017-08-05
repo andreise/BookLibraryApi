@@ -10,7 +10,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public sealed class SearchController : Controller
+    public sealed class SearchController : CommonControllerBase
     {
         private readonly bool returnNotFoundOnEmptyList = false;
 
@@ -18,10 +18,16 @@ namespace BookLibraryApi.Controllers.SpecificControllers
 
         private readonly ILogger logger;
 
-        private IActionResult GetActionResult<TEntity>(IReadOnlyList<TEntity> entities) =>
-            entities.Count == 0 && this.returnNotFoundOnEmptyList ?
-                (IActionResult)NotFound() :
-                (IActionResult)Ok(entities);
+        private IActionResult GetActionResult<TEntity>(IReadOnlyList<TEntity> entities)
+        {
+            if (entities.Count == 0)
+            {
+                if (this.returnNotFoundOnEmptyList)
+                    return NotFound();
+            }
+
+            return Ok(entities);
+        }
 
         public SearchController(SearchRepository repository, ILoggerFactory loggerFactory)
         {
@@ -41,7 +47,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByAuthor)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return GetActionResult(entities);
@@ -59,7 +65,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByGenre)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return GetActionResult(entities);
@@ -77,7 +83,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByAuthorAndGenre)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return GetActionResult(entities);
@@ -95,7 +101,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetAuthorsByNamePattern)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return GetActionResult(entities);
@@ -113,7 +119,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByNamePattern)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return GetActionResult(entities);

@@ -10,7 +10,7 @@ namespace BookLibraryApi.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public abstract class EntityControllerBase<TEntityRepository, TEntity> : Controller
+    public abstract class EntityControllerBase<TEntityRepository, TEntity> : CommonControllerBase
         where TEntityRepository : IEntityRepository<TEntity>
         where TEntity : class, IEntity
     {
@@ -37,7 +37,7 @@ namespace BookLibraryApi.Controllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetCount)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return Ok(count);
@@ -56,7 +56,7 @@ namespace BookLibraryApi.Controllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(GetAll)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return Ok(entities);
@@ -74,7 +74,7 @@ namespace BookLibraryApi.Controllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(Get)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             if (entity is null)
@@ -97,7 +97,7 @@ namespace BookLibraryApi.Controllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             return Ok(entity);
@@ -119,7 +119,7 @@ namespace BookLibraryApi.Controllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             if (entity is null)
@@ -140,7 +140,7 @@ namespace BookLibraryApi.Controllers
             catch (Exception ex)
             {
                 this.logger?.LogError(new EventId(0, $"{nameof(Delete)} error"), ex, ex.GetExtendedMessage());
-                return StatusCode(500);
+                return InternalServerError();
             }
 
             if (entity is null)

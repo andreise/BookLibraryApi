@@ -2,6 +2,8 @@
 using BookLibraryApi.Models.Entities;
 using BookLibraryApi.Models.Entities.Interfaces;
 using BookLibraryApi.Models.EntityLinks;
+using Common;
+using Common.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,7 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
 
         private IQueryable<Work> GetWorksByGenreInternal(int genreId) =>
             this.context.Set<Work>()
-            .Where(item => new[] { item.GenreId, item.AltGenreId }.Contains(genreId));
+            .Where(item => genreId.AsNullable().IsIn(item.GenreId, item.AltGenreId));
 
         private IQueryable<Work> GetWorksByAuthorAndGenreInternal(int authorId, int genreId)
         {

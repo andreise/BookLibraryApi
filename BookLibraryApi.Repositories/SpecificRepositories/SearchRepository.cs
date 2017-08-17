@@ -67,7 +67,7 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
             where TEntity : class, IEntityWithName
         {
             if (string.IsNullOrWhiteSpace(namePattern))
-                return Enumerable.Empty<TEntity>().AsQueryable();
+                return QueryableHelpers.Empty<TEntity>();
 
             string[] pattern = SplitNameInternal(namePattern);
 

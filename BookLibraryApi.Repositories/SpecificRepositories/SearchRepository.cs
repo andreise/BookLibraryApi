@@ -65,7 +65,7 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
             where TEntity : class, IEntityWithName
         {
             if (string.IsNullOrWhiteSpace(namePattern))
-                return null;
+                return Enumerable.Empty<TEntity>().AsQueryable();
 
             string[] pattern = SplitNameInternal(namePattern);
 
@@ -73,10 +73,6 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
                 .Where(item => !string.IsNullOrWhiteSpace(item.Name))
                 .Where(item => IsMatchNameInternal(pattern, item.Name));
         }
-
-        private IReadOnlyList<TEntity> GetEntitiesByNamePatternInternalWrapper<TEntity>(string namePattern)
-            where TEntity : class, IEntityWithName =>
-            this.GetEntitiesByNamePatternInternal<TEntity>(namePattern)?.ToArray() ?? new TEntity[] { };
 
         public IReadOnlyList<Work> GetWorksByAuthor(int authorId) =>
             this.GetWorksByAuthorInternal(authorId).ToArray();
@@ -88,9 +84,9 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
             this.GetWorksByAuthorAndGenreInternal(authorId, genreId).ToArray();
 
         public IReadOnlyList<Author> GetAuthorsByNamePattern(string namePattern) =>
-            this.GetEntitiesByNamePatternInternalWrapper<Author>(namePattern);
+            this.GetEntitiesByNamePatternInternal<Author>(namePattern).ToArray();
 
         public IReadOnlyList<Work> GetWorksByNamePattern(string namePattern) =>
-            this.GetEntitiesByNamePatternInternalWrapper<Work>(namePattern);
+            this.GetEntitiesByNamePatternInternal<Work>(namePattern).ToArray();
     }
 }

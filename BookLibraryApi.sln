@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseHelpers.Create", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibraryApi.UnitTests", "BookLibraryApi.UnitTests\BookLibraryApi.UnitTests.csproj", "{6D7F3CBD-1EC1-4B26-89F3-04A64EE8F909}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseHelpers", "DatabaseHelpers", "{C83AA0BF-BD47-4688-B6D3-A76A795C65F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2533E45-5FBF-4A7C-92E2-613576EBCE30} = {C83AA0BF-BD47-4688-B6D3-A76A795C65F0}
+		{948D02C6-FBD6-4DA6-AD35-392781A19D8C} = {C83AA0BF-BD47-4688-B6D3-A76A795C65F0}
+		{4D107907-90B3-48F5-98E5-04D438ADBFEC} = {C83AA0BF-BD47-4688-B6D3-A76A795C65F0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {579C8D16-8A1D-4DF7-88E6-87C9D31B9F82}

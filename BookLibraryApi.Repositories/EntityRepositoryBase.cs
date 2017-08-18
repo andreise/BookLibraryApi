@@ -1,4 +1,4 @@
-﻿using BookLibraryApi.Data.Common;
+﻿using BookLibraryApi.Models.Entities.Interfaces;
 using Common.Diagnostics.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using BookLibraryApi.Data.Common;
+﻿using BookLibraryApi.Models.Entities.Interfaces;
 using BookLibraryApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

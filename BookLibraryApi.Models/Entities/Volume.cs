@@ -1,4 +1,4 @@
-﻿using BookLibraryApi.Data.Common;
+﻿using BookLibraryApi.Models.Entities.Interfaces;
 using System.Collections.Generic;
 
 namespace BookLibraryApi.Models.Entities

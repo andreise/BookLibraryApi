@@ -1,6 +1,4 @@
-﻿using BookLibraryApi.Data.Common;
-
-namespace BookLibraryApi.Models.Entities.Interfaces
+﻿namespace BookLibraryApi.Models.Entities.Interfaces
 {
     public interface IEntityWithDescription : IEntity
     {

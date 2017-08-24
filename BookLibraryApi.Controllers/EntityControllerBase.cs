@@ -14,6 +14,16 @@ namespace BookLibraryApi.Controllers
         where TEntityRepository : IEntityRepository<TEntity>
         where TEntity : class, IEntity
     {
+        private static class Events
+        {
+            public const int GetCountError = 0;
+            public const int GetAllError = 1;
+            public const int GetError = 2;
+            public const int PostError = 3;
+            public const int PutError = 4;
+            public const int DeleteError = 5;
+        }
+
         private readonly TEntityRepository repository;
 
         private readonly ILogger logger;
@@ -36,7 +46,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(GetCount)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetCountError, $"{nameof(GetCount)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -55,7 +65,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(GetAll)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetAllError, $"{nameof(GetAll)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -73,7 +83,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(Get)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetError, $"{nameof(Get)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -99,7 +109,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.PostError, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -121,7 +131,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.PutError, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -142,7 +152,7 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(Delete)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.DeleteError, $"{nameof(Delete)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 

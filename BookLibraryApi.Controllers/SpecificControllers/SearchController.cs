@@ -12,6 +12,15 @@ namespace BookLibraryApi.Controllers.SpecificControllers
     [Route("api/[controller]")]
     public sealed class SearchController : CommonControllerBase
     {
+        private static class Events
+        {
+            public const int GetWorksByAuthorError = 0;
+            public const int GetWorksByGenreError = 1;
+            public const int GetWorksByAuthorAndGenreError = 2;
+            public const int GetAuthorsByNamePatternError = 3;
+            public const int GetWorksByNamePatternError = 4;
+        }
+
         private readonly bool returnNotFoundOnEmptyList = false;
 
         private readonly SearchRepository repository;
@@ -46,7 +55,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByAuthor)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetWorksByAuthorError, $"{nameof(GetWorksByAuthor)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -64,7 +73,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByGenre)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetWorksByGenreError, $"{nameof(GetWorksByGenre)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -82,7 +91,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByAuthorAndGenre)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetWorksByAuthorAndGenreError, $"{nameof(GetWorksByAuthorAndGenre)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -100,7 +109,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(GetAuthorsByNamePattern)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetAuthorsByNamePatternError, $"{nameof(GetAuthorsByNamePattern)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 
@@ -118,7 +127,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(0, $"{nameof(GetWorksByNamePattern)} error"), ex, ex.GetExtendedMessage());
+                this.logger?.LogError(new EventId(Events.GetWorksByNamePatternError, $"{nameof(GetWorksByNamePattern)} error"), ex, ex.GetExtendedMessage());
                 return InternalServerError();
             }
 

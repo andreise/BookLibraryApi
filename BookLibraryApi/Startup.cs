@@ -1,29 +1,47 @@
 ﻿using BookLibraryApi.Models.Contexts;
-using BookLibraryApi.Repositories.EntityRepositories;
 using BookLibraryApi.Repositories.EntityLinkRepositories;
+using BookLibraryApi.Repositories.EntityRepositories;
 using BookLibraryApi.Repositories.SpecificRepositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace BookLibraryApi
 {
-    sealed class Startup
+    internal sealed class Startup
     {
-        public IConfigurationRoot Configuration { get; }
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+            Configuration = configuration;
+        }
 
-            this.Configuration = builder.Build();
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+
+            this.ConfigureDbContext(services);
+            this.ConfigureRepositories(services);
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(
+            IApplicationBuilder app,
+            IHostingEnvironment env,
+            BookLibraryContext context)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseMvc();
+
+            context.Database.Migrate();
         }
 
         private void ConfigureDbContext(IServiceCollection services)
@@ -32,7 +50,8 @@ namespace BookLibraryApi
             services.AddDbContext<BookLibraryContext>(
                 options => options.UseSqlServer(
                     connectionString,
-                    optionsBuilder => optionsBuilder.MigrationsAssembly("BookLibraryApi")));
+                    optionsBuilder => optionsBuilder.MigrationsAssembly("BookLibraryApi")),
+                ServiceLifetime.Singleton);
         }
 
         private void ConfigureRepositories(IServiceCollection services)
@@ -53,35 +72,9 @@ namespace BookLibraryApi
             services.AddSingleton<VolumeWorkLinksRepository>();
             services.AddSingleton<WorkAuthorLinksRepository>();
 
-            // Specific Reposotories
+            // Specific Repositories
 
             services.AddSingleton<SearchRepository>();
-        }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            this.ConfigureDbContext(services);
-
-            this.ConfigureRepositories(services);
-
-            // Add framework services.
-            services.AddMvc();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(
-            IApplicationBuilder app,
-            IHostingEnvironment env,
-            ILoggerFactory loggerFactory,
-            BookLibraryContext context)
-        {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
-            context.Database.Migrate();
-
-            app.UseMvc();
         }
     }
 }

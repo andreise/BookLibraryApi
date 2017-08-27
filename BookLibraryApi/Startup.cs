@@ -14,7 +14,7 @@ namespace BookLibraryApi
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -47,11 +47,13 @@ namespace BookLibraryApi
         private void ConfigureDbContext(IServiceCollection services)
         {
             var connectionString = this.Configuration.GetConnectionString("BookLibraryContext");
+
             services.AddDbContext<BookLibraryContext>(
-                options => options.UseSqlServer(
-                    connectionString,
-                    optionsBuilder => optionsBuilder.MigrationsAssembly("BookLibraryApi")),
-                ServiceLifetime.Singleton);
+                optionsAction: contextOptionsBuilder => contextOptionsBuilder
+                    .UseSqlServer(
+                        connectionString,
+                        dbOptionsBuilder => dbOptionsBuilder.MigrationsAssembly("BookLibraryApi")),
+                contextLifetime: ServiceLifetime.Singleton);
         }
 
         private void ConfigureRepositories(IServiceCollection services)

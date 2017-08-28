@@ -15,15 +15,6 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    },
-    "BookLibraryApi": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/authors",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:58797"
     }
   }
 }

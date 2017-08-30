@@ -15,7 +15,7 @@ namespace BookLibraryApi.Controllers
             this.logger = this.CreateLogger(loggerFactory);
         }
 
-        public virtual StatusCodeResult InternalServerError() => StatusCode(500);
+        public virtual StatusCodeResult InternalServerError() => this.StatusCode(500);
 
         protected virtual void LogInternalServerError(int eventId, string actionName, Exception ex)
         {

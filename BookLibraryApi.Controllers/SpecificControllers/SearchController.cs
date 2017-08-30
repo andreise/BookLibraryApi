@@ -25,23 +25,24 @@ namespace BookLibraryApi.Controllers.SpecificControllers
 
         private readonly SearchRepository repository;
 
-        private readonly ILogger logger;
-
         private IActionResult GetActionResult<TEntity>(IReadOnlyList<TEntity> entities)
         {
             if (entities.Count == 0)
             {
                 if (this.returnNotFoundOnEmptyList)
-                    return NotFound();
+                    return this.NotFound();
             }
 
-            return Ok(entities);
+            return this.Ok(entities);
         }
 
+        protected override ILogger CreateLogger(ILoggerFactory loggerFactory) =>
+            loggerFactory?.CreateLogger<SearchController>();
+
         public SearchController(SearchRepository repository, ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         {
             this.repository = repository;
-            this.logger = loggerFactory?.CreateLogger<SearchController>();
         }
 
         [HttpGet("authors/{authorId}/works")]
@@ -55,11 +56,11 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetWorksByAuthorError, $"{nameof(GetWorksByAuthor)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetWorksByAuthorError, nameof(GetWorksByAuthor), ex);
+                return this.InternalServerError();
             }
 
-            return GetActionResult(entities);
+            return this.GetActionResult(entities);
         }
 
         [HttpGet("genres/{genreId}/works")]
@@ -73,11 +74,11 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetWorksByGenreError, $"{nameof(GetWorksByGenre)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetWorksByGenreError, nameof(GetWorksByGenre), ex);
+                return this.InternalServerError();
             }
 
-            return GetActionResult(entities);
+            return this.GetActionResult(entities);
         }
 
         [HttpGet("authors/{authorId}/genres/{genreId}/works")]
@@ -91,11 +92,11 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetWorksByAuthorAndGenreError, $"{nameof(GetWorksByAuthorAndGenre)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetWorksByAuthorAndGenreError, nameof(GetWorksByAuthorAndGenre), ex);
+                return this.InternalServerError();
             }
 
-            return GetActionResult(entities);
+            return this.GetActionResult(entities);
         }
 
         [HttpGet("namepattern/{namePattern}/works")]
@@ -109,11 +110,11 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetAuthorsByNamePatternError, $"{nameof(GetAuthorsByNamePattern)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetAuthorsByNamePatternError, nameof(GetAuthorsByNamePattern), ex);
+                return this.InternalServerError();
             }
 
-            return GetActionResult(entities);
+            return this.GetActionResult(entities);
         }
 
         [HttpGet("namepattern/{namePattern}/works")]
@@ -127,11 +128,11 @@ namespace BookLibraryApi.Controllers.SpecificControllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetWorksByNamePatternError, $"{nameof(GetWorksByNamePattern)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetWorksByNamePatternError, nameof(GetWorksByNamePattern), ex);
+                return this.InternalServerError();
             }
 
-            return GetActionResult(entities);
+            return this.GetActionResult(entities);
         }
     }
 }

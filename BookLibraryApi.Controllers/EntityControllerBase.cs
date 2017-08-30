@@ -26,12 +26,13 @@ namespace BookLibraryApi.Controllers
 
         private readonly TEntityRepository repository;
 
-        private readonly ILogger logger;
+        protected override ILogger CreateLogger(ILoggerFactory loggerFactory) =>
+            loggerFactory?.CreateLogger<EntityControllerBase<TEntityRepository, TEntity>>();
 
         public EntityControllerBase(TEntityRepository repository, ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         {
             this.repository = repository;
-            this.logger = loggerFactory?.CreateLogger<EntityControllerBase<TEntityRepository, TEntity>>();
         }
 
         [Route("count")]
@@ -46,11 +47,11 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetCountError, $"{nameof(GetCount)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetCountError, nameof(GetCount), ex);
+                return this.InternalServerError();
             }
 
-            return Ok(count);
+            return this.Ok(count);
         }
 
         [Route("all")]
@@ -65,11 +66,11 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetAllError, $"{nameof(GetAll)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetAllError, nameof(GetAll), ex);
+                return this.InternalServerError();
             }
 
-            return Ok(entities);
+            return this.Ok(entities);
         }
 
         [HttpGet("{id}")]
@@ -83,14 +84,14 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.GetError, $"{nameof(Get)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.GetError, nameof(Get), ex);
+                return this.InternalServerError();
             }
 
             if (entity is null)
-                return NotFound();
+                return this.NotFound();
 
-            return Ok(entity);
+            return this.Ok(entity);
         }
 
         [HttpPost]
@@ -100,7 +101,7 @@ namespace BookLibraryApi.Controllers
                 return BadRequest("Entity is null.");
 
             if (entity.Id != 0)
-                return BadRequest("Entity ID must be equals to zero.");
+                return this.BadRequest("Entity ID must be equals to zero.");
 
             try
             {
@@ -109,18 +110,18 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.PostError, $"{nameof(Post)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.PostError, nameof(Post), ex);
+                return this.InternalServerError();
             }
 
-            return CreatedAtAction(nameof(Post), entity);
+            return this.CreatedAtAction(nameof(Post), entity);
         }
 
         [HttpPut]
         public IActionResult Put([FromBody]TEntity entity)
         {
             if (entity is null)
-                return BadRequest("Entity is null.");
+                return this.BadRequest("Entity is null.");
 
             try
             {
@@ -131,14 +132,14 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.PutError, $"{nameof(Put)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.PutError, nameof(Put), ex);
+                return this.InternalServerError();
             }
 
             if (entity is null)
-                return NotFound();
+                return this.NotFound();
 
-            return Ok(entity);
+            return this.Ok(entity);
         }
 
         [HttpDelete("{id}")]
@@ -152,14 +153,14 @@ namespace BookLibraryApi.Controllers
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(new EventId(Events.DeleteError, $"{nameof(Delete)} error"), ex, ex.GetExtendedMessage());
-                return InternalServerError();
+                this.LogInternalServerError(Events.DeleteError, nameof(Delete), ex);
+                return this.InternalServerError();
             }
 
             if (entity is null)
-                return NotFound();
+                return this.NotFound();
 
-            return Ok();
+            return this.Ok();
         }
     }
 }

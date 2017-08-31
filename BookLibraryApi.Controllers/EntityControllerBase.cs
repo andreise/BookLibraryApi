@@ -27,7 +27,7 @@ namespace BookLibraryApi.Controllers
         private readonly TEntityRepository repository;
 
         protected override ILogger CreateLogger(ILoggerFactory loggerFactory) =>
-            loggerFactory?.CreateLogger<EntityControllerBase<TEntityRepository, TEntity>>();
+            loggerFactory.CreateLogger<EntityControllerBase<TEntityRepository, TEntity>>();
 
         public EntityControllerBase(TEntityRepository repository, ILoggerFactory loggerFactory)
             : base(loggerFactory)

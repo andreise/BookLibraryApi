@@ -37,7 +37,7 @@ namespace BookLibraryApi.Controllers.SpecificControllers
         }
 
         protected override ILogger CreateLogger(ILoggerFactory loggerFactory) =>
-            loggerFactory?.CreateLogger<SearchController>();
+            loggerFactory.CreateLogger<SearchController>();
 
         public SearchController(SearchRepository repository, ILoggerFactory loggerFactory)
             : base(loggerFactory)

@@ -12,7 +12,10 @@ namespace BookLibraryApi.Controllers
 
         public CommonControllerBase(ILoggerFactory loggerFactory)
         {
-            this.logger = this.CreateLogger(loggerFactory);
+            if (!(loggerFactory is null))
+            {
+                this.logger = this.CreateLogger(loggerFactory);
+            }
         }
 
         public virtual StatusCodeResult InternalServerError() => this.StatusCode(500);

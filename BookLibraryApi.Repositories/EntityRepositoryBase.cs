@@ -12,6 +12,8 @@ namespace BookLibraryApi.Repositories
         
         public EntityRepositoryBase(DbContext context)
         {
+            Contract.RequiresArgumentNotNull(context, nameof(context));
+
             this.context = context;
         }
 

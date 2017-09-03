@@ -150,6 +150,9 @@ namespace BookLibraryApi.Controllers
             try
             {
                 entity = this.repository.Remove(id);
+
+                if (!(entity is null))
+                    this.repository.SaveChanges();
             }
             catch (Exception ex)
             {

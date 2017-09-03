@@ -71,9 +71,10 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
 
             string[] pattern = SplitNameInternal(namePattern);
 
-            return this.context.Set<TEntity>()
-                .Where(item => !string.IsNullOrWhiteSpace(item.Name))
-                .Where(item => IsMatchNameInternal(pattern, item.Name));
+            return this.context.Set<TEntity>().Where(
+                item =>
+                    !string.IsNullOrWhiteSpace(item.Name) &&
+                    IsMatchNameInternal(pattern, item.Name));
         }
 
         public IReadOnlyList<Work> GetWorksByAuthor(int authorId) =>

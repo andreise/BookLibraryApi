@@ -17,8 +17,32 @@ using System.Linq;
 namespace BookLibraryApi.UnitTests
 {
     [TestClass]
-    public class UnitTest
+    public class BookLibraryApiTest
     {
+        private BookLibraryContext context;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            this.context = CreateContext();
+            this.context.Database.EnsureDeleted();
+            this.context.Database.Migrate();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            this.context.Database.EnsureDeleted();
+            this.context.Dispose();
+        }
+
+        [TestMethod]
+        public void TestMain()
+        {
+            FillDatabaseWithAdditionalChecks(context);
+            DoSomeSearchingsInFilledDatabase(context);
+        }
+
         private static BookLibraryContext CreateContext()
         {
             var optionsBuilder = new DbContextOptionsBuilder<BookLibraryContext>();
@@ -163,35 +187,6 @@ namespace BookLibraryApi.UnitTests
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)result).Value, typeof(IReadOnlyList<Work>));
             Assert.IsTrue(((IReadOnlyList<Work>)((OkObjectResult)result).Value).Count == 2);
-        }
-
-        [TestMethod]
-        public void TestCreateEmptyDatabase()
-        {
-            var context = CreateContext();
-            context.Database.EnsureDeleted();
-            context.Database.Migrate();
-        }
-
-        [TestMethod]
-        public void TestCreateSampleDatabaseWithAdditionalChecks()
-        {
-            var context = CreateContext();
-            context.Database.EnsureDeleted();
-            context.Database.Migrate();
-
-            FillDatabaseWithAdditionalChecks(context);
-       }
-
-        [TestMethod]
-        public void TestCreateSampleDatabaseWithAdditionalChecksAndSearches()
-        {
-            var context = CreateContext();
-            context.Database.EnsureDeleted();
-            context.Database.Migrate();
-
-            FillDatabaseWithAdditionalChecks(context);
-            DoSomeSearchingsInFilledDatabase(context);
         }
     }
 }

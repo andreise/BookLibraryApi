@@ -86,35 +86,45 @@ namespace Common.Diagnostics.Contracts
 
         private static Func<ArgumentException> GetArgumentExceptionFactory(string message, string paramName)
         {
-            if (message is null && paramName is null)
-                return () => new ArgumentException();
-
-            if (paramName is null)
-                return () => new ArgumentException(message);
-
-            return () => new ArgumentException(message, paramName);
+            return GetExceptionFactoryHelper(
+                message,
+                paramName,
+                (messageArg) => new ArgumentException(messageArg),
+                (messageArg, paramNameArg) => new ArgumentException(messageArg, paramNameArg));
         }
 
         private static Func<ArgumentOutOfRangeException> GetArgumentOutOfRangeExceptionFactory(string paramName, string message)
         {
-            if (paramName is null && message is null)
-                return () => new ArgumentOutOfRangeException();
-
-            if (message is null)
-                return () => new ArgumentOutOfRangeException(paramName);
-
-            return () => new ArgumentOutOfRangeException(paramName, message);
+            return GetExceptionFactoryHelper(
+                paramName,
+                message,
+                (paramNameArg) => new ArgumentOutOfRangeException(paramNameArg),
+                (paramNameArg, messageArg) => new ArgumentOutOfRangeException(paramNameArg, messageArg));
         }
 
         private static Func<ArgumentNullException> GetArgumentNullExceptionFactory(string paramName, string message)
         {
-            if (paramName is null && message is null)
-                return () => new ArgumentNullException();
+            return GetExceptionFactoryHelper(
+                paramName,
+                message,
+                (paramNameArg) => new ArgumentNullException(paramNameArg),
+                (paramNameArg, messageArg) => new ArgumentNullException(paramNameArg, messageArg));
+        }
 
-            if (message is null)
-                return () => new ArgumentNullException(paramName);
+        private static Func<TException> GetExceptionFactoryHelper<TException>(
+            string arg1,
+            string arg2,
+            Func<string, TException> exceptionFactory1,
+            Func<string, string, TException> exceptionFactory2)
+            where TException : Exception, new()
+        {
+            if (arg1 is null && arg2 is null)
+                return () => new TException();
 
-            return () => new ArgumentNullException(paramName, message);
+            if (arg2 is null)
+                return () => exceptionFactory1(arg1);
+
+            return () => exceptionFactory2(arg1, arg2);
         }
     }
 }

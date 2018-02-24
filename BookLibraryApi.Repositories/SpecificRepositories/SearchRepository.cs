@@ -37,7 +37,7 @@ namespace BookLibraryApi.Repositories.SpecificRepositories
 
         private IQueryable<Work> GetWorksByGenreInternal(int genreId) =>
             this.context.Set<Work>()
-            .Where(item => genreId.AsNullable().IsIn(item.GenreId, item.AltGenreId));
+            .Where(item => genreId.IsIn(item.GenreId, item.AltGenreId));
 
         private IQueryable<Work> GetWorksByAuthorAndGenreInternal(int authorId, int genreId)
         {

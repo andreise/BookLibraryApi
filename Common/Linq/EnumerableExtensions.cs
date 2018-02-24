@@ -33,16 +33,60 @@ namespace Common.Linq
         public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> collection) =>
             collection is null || !collection.Any();
 
-        public static bool IsIn<TSource>(this TSource source, IEnumerable<TSource> collection) =>
-            collection.Contains(source);
+        public static bool IsIn<TSource>(this TSource source, IEnumerable<TSource> collection)
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
 
-        public static bool IsIn<TSource>(this TSource source, params TSource[] collection) =>
-            IsIn(source, (IEnumerable<TSource>)collection);
+            return collection.Contains(source);
+        }
 
-        public static bool IsIn<TSource>(this TSource source, IEqualityComparer<TSource> comparer, IEnumerable<TSource> collection) =>
-            collection.Contains(source, comparer);
+        public static bool IsIn<TSource>(this TSource source, IEnumerable<TSource?> collection) where TSource : struct
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
 
-        public static bool IsIn<TSource>(this TSource source, IEqualityComparer<TSource> comparer, params TSource[] collection) =>
-            IsIn(source, comparer, (IEnumerable<TSource>)collection);
+            return collection.Contains(source);
+        }
+
+        public static bool IsIn<TSource>(this TSource source, params TSource[] collection)
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
+
+            return collection.Contains(source);
+        }
+
+        public static bool IsIn<TSource>(this TSource source, params TSource?[] collection) where TSource : struct
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
+
+            return collection.Contains(source);
+        }
+
+        public static bool IsIn<TSource>(this TSource source, IEqualityComparer<TSource> comparer, IEnumerable<TSource> collection)
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
+
+            return collection.Contains(source, comparer);
+        }
+
+        public static bool IsIn<TSource>(this TSource source, IEqualityComparer<TSource?> comparer, IEnumerable<TSource?> collection) where TSource : struct
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
+
+            return collection.Contains(source, comparer);
+        }
+
+        public static bool IsIn<TSource>(this TSource source, IEqualityComparer<TSource> comparer, params TSource[] collection)
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
+
+            return collection.Contains(source, comparer);
+        }
+
+        public static bool IsIn<TSource>(this TSource source, IEqualityComparer<TSource?> comparer, params TSource?[] collection) where TSource : struct
+        {
+            Contract.RequiresArgumentNotNull(collection, nameof(collection));
+
+            return collection.Contains(source, comparer);
+        }
     }
 }

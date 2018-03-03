@@ -13,7 +13,35 @@ namespace Common.Linq
             Contract.RequiresArgumentNotNull(action, nameof(action));
 
             foreach (var item in source)
+            {
                 action(item);
+            }
+        }
+
+        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, int> action)
+        {
+            Contract.RequiresArgumentNotNull(source, nameof(source));
+            Contract.RequiresArgumentNotNull(action, nameof(action));
+
+            int index = -1;
+            foreach (var item in source)
+            {
+                checked { ++index; }
+                action(item, index);
+            }
+        }
+
+        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, long> action)
+        {
+            Contract.RequiresArgumentNotNull(source, nameof(source));
+            Contract.RequiresArgumentNotNull(action, nameof(action));
+
+            long index = -1;
+            foreach (var item in source)
+            {
+                checked { ++index; }
+                action(item, index);
+            }
         }
 
         public static IEnumerable<TSource> Yield<TSource>(this TSource source)
@@ -21,11 +49,19 @@ namespace Common.Linq
             yield return source;
         }
 
-        public static IEnumerable<TSource> Concat<TSource>(this TSource first, IEnumerable<TSource> second) =>
-            first.Yield().Concat(second);
+        public static IEnumerable<TSource> Concat<TSource>(this TSource first, IEnumerable<TSource> second)
+        {
+            Contract.RequiresArgumentNotNull(second, nameof(second));
 
-        public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> first, TSource second) =>
-            first.Concat(second.Yield());
+            return first.Yield().Concat(second);
+        }
+
+        public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> first, TSource second)
+        {
+            Contract.RequiresArgumentNotNull(first, nameof(first));
+
+            return first.Concat(second.Yield());
+        }
 
         public static bool IsNullOrEmpty<TSource>(this IReadOnlyCollection<TSource> collection) =>
             collection is null || collection.Count == 0;

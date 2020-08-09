@@ -9,7 +9,7 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookLibraryApi.Controllers\BookLibraryApi.Controllers.csproj" />
